@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="rootPane_c" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="924.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinebanking.LoginController">
+   <children>
+      <Pane layoutX="28.0" layoutY="171.0" prefHeight="203.0" prefWidth="328.0" />
+      <Pane fx:id="rootPane" layoutX="135.0" layoutY="67.0" prefHeight="432.0" prefWidth="654.0" style="-fx-background-color: #ffffff; -fx-background-radius: 40px;">
+         <effect>
+            <DropShadow color="#3c3c3c" />
+         </effect>
+         <children>
+            <Label layoutX="270.0" layoutY="39.0" prefHeight="34.0" prefWidth="82.0" text="Sign in" textAlignment="CENTER" textFill="#003fff">
+               <font>
+                  <Font name="Microsoft JhengHei UI Light" size="26.0" />
+               </font>
+            </Label>
+            <Label id="welcome" fx:id="welcome1" layoutX="262.0" layoutY="80.0" prefHeight="50.0" prefWidth="98.0" text="Welcome, to Online Banking!" textAlignment="CENTER" textFill="#868686" wrapText="true" />
+            <JFXTextField id="acc_no_c" fx:id="acc_no" focusColor="#d30699" labelFloat="true" layoutX="203.0" layoutY="148.0" prefHeight="25.0" prefWidth="216.0" promptText="Account Number" />
+            <JFXPasswordField id="pass_c" fx:id="pass" focusColor="#d30699" labelFloat="true" layoutX="203.0" layoutY="204.0" prefHeight="25.0" prefWidth="216.0" promptText="Password" />
+            <JFXButton id="login_btn_c" fx:id="login_btn" buttonType="RAISED" layoutX="247.0" layoutY="292.0" onAction="#Login" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: #d30699; -fx-background-radius: 50;" text="Login" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton id="createAcc_btn_c" buttonType="RAISED" layoutX="247.0" layoutY="354.0" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: #d30699; -fx-background-radius: 50;" text="Create Account" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+            <Label layoutX="301.0" layoutY="329.0" prefHeight="25.0" prefWidth="22.0" text="OR" textFill="#464646" wrapText="true" />
+            <Label layoutX="262.0" layoutY="251.0" prefHeight="25.0" prefWidth="98.0" text="Forgot Password?" textAlignment="CENTER" textFill="#464646" wrapText="true" />
+            <Label fx:id="isConnected" layoutX="154.0" layoutY="388.0" prefHeight="25.0" prefWidth="370.0" text="Status" textFill="RED" />
+         </children>
+      </Pane>
+      <Label layoutX="243.0" layoutY="-51.0" text="Account Number" />
+   </children>
+</AnchorPane>
