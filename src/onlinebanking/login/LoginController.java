@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package onlinebanking;
+package onlinebanking.login;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,10 +13,21 @@ import javafx.scene.control.Label;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+
 
 /**
  *
@@ -43,23 +54,27 @@ public class LoginController implements Initializable {
 
     @FXML
     private JFXTextField acc_no;
-
+    
     @FXML
-    void handleSubmitButtonAction(ActionEvent event) {
-        if (acc_no.getText().isEmpty() && pass.getText().isEmpty()) {
-            System.out.println("Both are Empty");
-            return;
-        } else if (pass.getText().isEmpty()) {
-            System.out.println("Password? " + acc_no.getText());
-            return;
-        } else if (acc_no.getText().isEmpty()) {
-            System.out.println("Account? " + pass.getText());
-            return;
-        } else {
-            System.out.println("Successful! " + pass.getText() + " " + acc_no.getText());
+    private JFXButton createAcc_btn;
+
+    
+    @FXML
+    public void CreateAccount(ActionEvent event) throws IOException {
+        Stage stage;
+        Parent loader;
+        if(event.getSource()==createAcc_btn){
+            stage = (Stage) createAcc_btn.getScene().getWindow();
+            loader=FXMLLoader.load(getClass().getResource("/onlinebanking/register/RegisterPage.fxml"));
+
+            Scene scene = new Scene(loader);
+            stage.setScene(scene);
+            stage.show();
+
         }
     }
-
+    @FXML
+    
     public void Login(ActionEvent event) throws SQLException {
         if (acc_no.getText().isEmpty() && pass.getText().isEmpty()) {
             isConnected.setText("Both are Empty");
@@ -86,6 +101,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+      
         if (loginModel.isDbConnected()) {
             isConnected.setText("Connected");
         } else {

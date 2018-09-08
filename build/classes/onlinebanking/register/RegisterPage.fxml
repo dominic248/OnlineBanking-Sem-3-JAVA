@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="1082.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutX="27.0" layoutY="25.0" prefHeight="560.0" prefWidth="1032.0" style="-fx-background-color: #d2d2d2;">
+         <children>
+            <JFXTextField labelFloat="true" layoutX="449.0" layoutY="181.0" promptText="Username" />
+            <JFXPasswordField labelFloat="true" layoutX="449.0" layoutY="240.0" promptText="Password" />
+            <JFXTextField labelFloat="true" layoutX="449.0" layoutY="302.0" promptText="Address" />
+            <JFXTextField labelFloat="true" layoutX="449.0" layoutY="363.0" promptText="E-mail" />
+            <JFXTextField labelFloat="true" layoutX="449.0" layoutY="421.0" promptText="Mobile" />
+            <JFXButton layoutX="466.0" layoutY="474.0" prefHeight="45.0" prefWidth="101.0" style="-fx-background-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" textFill="WHITE" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
