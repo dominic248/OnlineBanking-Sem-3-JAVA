@@ -6,42 +6,35 @@
 package onlinebanking.login;
 
 import java.sql.*;
-import onlinebanking.SqliteConnection;
+import database.DBConnected;
+import database.SqliteConnection;
 
 /**
  *
  * @author dms
  */
 public class LoginModel {
-
+    
     Connection connection;
-
     public LoginModel(){
-        connection = SqliteConnection.Connector();
+        connection = SqliteConnection.connector();
         if (connection == null) {
             System.exit(1);
         }
     }
 
-    public boolean isDbConnected() {
-        try {
-            return !connection.isClosed();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean isLogin(String acc_no, String pass) throws SQLException {
+    public boolean isLogin(String username, String password) throws SQLException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String query = "select * from AccountInfo where Usernames=? and Passwords =?";
+        String query = "select * from users where username=? and password =?";
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, acc_no);
-            preparedStatement.setString(2, pass);
+            preparedStatement.setString(1, username); //setting 1st ? of SQL from acc_no
+            preparedStatement.setString(2, password);   //setting 2nd ? of SQL from pass
             resultSet = preparedStatement.executeQuery();
+            System.out.println(resultSet);
             if (resultSet.next()) {
+                System.out.println(resultSet.getString("username"));
                 return true;
             } else {
                 return false;

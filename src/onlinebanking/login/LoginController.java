@@ -9,24 +9,20 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import database.DBConnected;
+
 
 
 /**
@@ -35,7 +31,8 @@ import javafx.scene.Scene;
  */
 public class LoginController implements Initializable {
 
-    public LoginModel loginModel = new LoginModel();
+    LoginModel loginModel = new LoginModel();
+    DBConnected dbConnected = new DBConnected();
 
     @FXML
     private Label isConnected;
@@ -47,24 +44,24 @@ public class LoginController implements Initializable {
     private JFXButton login_btn;
 
     @FXML
-    private JFXPasswordField pass;
+    private JFXPasswordField password;
 
     @FXML
     private Label welcome;
 
     @FXML
-    private JFXTextField acc_no;
+    private JFXTextField username;
     
     @FXML
-    private JFXButton createAcc_btn;
+    private JFXButton register_btn;
 
     
     @FXML
-    public void CreateAccount(ActionEvent event) throws IOException {
+    public void CreateAccountPage(ActionEvent event) throws IOException {
         Stage stage;
         Parent loader;
-        if(event.getSource()==createAcc_btn){
-            stage = (Stage) createAcc_btn.getScene().getWindow();
+        if(event.getSource()==register_btn){
+            stage = (Stage) register_btn.getScene().getWindow();
             loader=FXMLLoader.load(getClass().getResource("/onlinebanking/register/RegisterPage.fxml"));
 
             Scene scene = new Scene(loader);
@@ -76,18 +73,18 @@ public class LoginController implements Initializable {
     @FXML
     
     public void Login(ActionEvent event) throws SQLException {
-        if (acc_no.getText().isEmpty() && pass.getText().isEmpty()) {
+        if (username.getText().isEmpty() && password.getText().isEmpty()) {
             isConnected.setText("Both are Empty");
             return;
-        } else if (pass.getText().isEmpty()) {
+        } else if (password.getText().isEmpty()) {
             isConnected.setText("Password?");
             return;
-        } else if (acc_no.getText().isEmpty()) {
+        } else if (username.getText().isEmpty()) {
             isConnected.setText("Account?");
             return;
         } else {
             try {
-                if (loginModel.isLogin(acc_no.getText(), pass.getText())) {
+                if (loginModel.isLogin(username.getText(), password.getText())) {
                     isConnected.setText("Username and password is correct");
                 } else {
                     isConnected.setText("Username and password is wrong");
@@ -101,12 +98,13 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-      
-        if (loginModel.isDbConnected()) {
+        
+        if (dbConnected.isDbConnected()) {
             isConnected.setText("Connected");
         } else {
             isConnected.setText("Disconnected");
         }
+
     }
 
 }

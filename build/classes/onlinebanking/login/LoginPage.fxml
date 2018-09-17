@@ -21,14 +21,14 @@
                </font>
             </Label>
             <Label id="welcome" fx:id="welcome1" layoutX="262.0" layoutY="80.0" prefHeight="50.0" prefWidth="98.0" text="Welcome, to Online Banking!" textAlignment="CENTER" textFill="#868686" wrapText="true" />
-            <JFXTextField id="acc_no_c" fx:id="acc_no" focusColor="#d30699" labelFloat="true" layoutX="203.0" layoutY="148.0" prefHeight="25.0" prefWidth="216.0" promptText="Account Number" />
-            <JFXPasswordField id="pass_c" fx:id="pass" focusColor="#d30699" labelFloat="true" layoutX="203.0" layoutY="204.0" prefHeight="25.0" prefWidth="216.0" promptText="Password" />
+            <JFXTextField id="acc_no_c" fx:id="username" focusColor="#d30699" labelFloat="true" layoutX="203.0" layoutY="148.0" prefHeight="25.0" prefWidth="216.0" promptText="Username" />
+            <JFXPasswordField id="pass_c" fx:id="password" focusColor="#d30699" labelFloat="true" layoutX="203.0" layoutY="204.0" prefHeight="25.0" prefWidth="216.0" promptText="Password" />
             <JFXButton id="login_btn_c" fx:id="login_btn" buttonType="RAISED" layoutX="247.0" layoutY="292.0" onAction="#Login" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: #d30699; -fx-background-radius: 50;" text="Login" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton id="createAcc_btn_c" fx:id="createAcc_btn" buttonType="RAISED" layoutX="247.0" layoutY="354.0" onAction="#CreateAccount" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: #d30699; -fx-background-radius: 50;" text="Create Account" textAlignment="CENTER" textFill="WHITE">
+            <JFXButton id="createAcc_btn_c" fx:id="register_btn" buttonType="RAISED" layoutX="247.0" layoutY="354.0" onAction="#CreateAccountPage" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: #d30699; -fx-background-radius: 50;" text="Register" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
