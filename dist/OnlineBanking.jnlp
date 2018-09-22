@@ -8,13 +8,13 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="OnlineBanking.jar" size="927410" download="eager" />
+    <jar href="OnlineBanking.jar" size="931716" download="eager" />
     <jar href="lib\jfoenix.jar" size="2631271" download="eager" />
     <jar href="lib\sqlite-jdbc.jar" size="6733696" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="OnlineBanking" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="onlinebanking.OnlineBanking"  name="OnlineBanking" />
+  <jfx:javafx-desc  width="800" height="600" main-class="main.onlinebanking.OnlineBanking"  name="OnlineBanking" />
   <update check="always"/>
 </jnlp>

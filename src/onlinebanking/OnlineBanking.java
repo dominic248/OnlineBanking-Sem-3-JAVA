@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package onlinebanking;
+package main.onlinebanking;
 
-import database.DBConnected;
-
-import database.SqliteConnection;
+import onlinebanking.database.DBConnected;
+import onlinebanking.database.SqliteConnection;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,6 +17,7 @@ import javafx.scene.Parent;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle; //StageStyle.DECORATED
 
@@ -26,21 +26,23 @@ import javafx.stage.StageStyle; //StageStyle.DECORATED
  * @author dms
  */
 public class OnlineBanking extends Application {
+
     Stage stage;
     Connection connection;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.stage=primaryStage;
+        this.stage = primaryStage;
         mainWindow();
     }
+
     public void mainWindow() throws IOException {
         connection = SqliteConnection.createdb();
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/onlinebanking/login/LoginPage.fxml"));
-        AnchorPane pane=loader.load();
-        Scene scene=new Scene(pane);
-        scene.getStylesheets().addAll(getClass().getResource("/onlinebanking/login/style.css").toExternalForm());
-        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/onlinebanking/LoginRegister/LoginRegisterPage.fxml"));
+        StackPane pane = loader.load();
+        Scene scene = new Scene(pane);
+        scene.getStylesheets().addAll(getClass().getResource("/onlinebanking/LoginRegister/style.css").toExternalForm());
+
         stage.setTitle("Online Banking");
         stage.setScene(scene);
         stage.setResizable(false);
@@ -48,7 +50,7 @@ public class OnlineBanking extends Application {
         //stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
-   
+
     /**
      * @param args the command line arguments
      */
@@ -56,5 +58,5 @@ public class OnlineBanking extends Application {
         //DBConnected dbConnected = new DBConnected();
         launch(args);
     }
-    
+
 }
