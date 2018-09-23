@@ -13,7 +13,7 @@
     <children>
         <JFXTabPane fx:id="LoginRegisterTab">
             <tabs>
-                <Tab fx:id="LoginTab" text="Login">
+                <Tab fx:id="LoginTab" style="-fx-background-color: red;" text="Login">
                     <content>
                         <AnchorPane id="LrootPane_css" fx:id="LrootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="1060.0" style="-fx-background-repeat: no-repeat; -fx-background-size: cover, auto;;" stylesheets="@style.css">
                             <children>
@@ -43,7 +43,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab fx:id="RegisterTab" text="Register">
+                <Tab fx:id="RegisterTab" style="-fx-background-color: red;" text="Register">
                     <content>
                         <AnchorPane id="RrootPane_css" fx:id="RrootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1061.0">
                             <children>

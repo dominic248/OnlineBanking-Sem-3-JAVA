@@ -15,7 +15,9 @@ import onlinebanking.database.SqliteConnection;
 public class LoginModel {
 
     Connection connection;
-
+    public static int uid;
+    
+    
     public LoginModel() {
         connection = SqliteConnection.connector();
         if (connection == null) {
@@ -34,7 +36,8 @@ public class LoginModel {
             resultSet = preparedStatement.executeQuery();
             System.out.println(resultSet);
             if (resultSet.next()) {
-                System.out.println(resultSet.getString("username"));
+                System.out.println(resultSet.getInt("uid"));
+                uid=resultSet.getInt("uid");
                 return true;
             } else {
                 return false;

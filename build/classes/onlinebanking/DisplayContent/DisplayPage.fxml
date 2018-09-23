@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.control.*?>
 <?import com.jfoenix.controls.*?>
@@ -10,7 +11,7 @@
     <children>
         <AnchorPane prefHeight="200.0" prefWidth="200.0">
             <children>
-                <JFXDrawer fx:id="mainDrawer" defaultDrawerSize="250.0" prefHeight="650.0" prefWidth="250.0" />
+                <JFXDrawer fx:id="mainDrawer" defaultDrawerSize="250.0" prefHeight="650.0" prefWidth="1200.0" />
                 <Pane fx:id="mainHeader" prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: red;">
                     <children>
                         <JFXHamburger fx:id="mainHamburg" layoutX="14.0" layoutY="17.0" prefHeight="20.0" prefWidth="28.0" />

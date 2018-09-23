@@ -3,68 +3,68 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package onlinebanking.LoginRegister;
+package onlinebanking.DisplayContent.AccountsPage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import onlinebanking.LoginRegister.LoginModel;
+
 import onlinebanking.database.SqliteConnection;
 
 /**
  *
  * @author dms
  */
-public class RegisterModel {
-
+public class AccountsPageContentModel {
     Connection connection;
+    public static int acc_id = LoginModel.uid;
 
-    public RegisterModel() {
+    public AccountsPageContentModel() {
         connection = SqliteConnection.connector();
         if (connection == null) {
             System.exit(1);
         }
     }
 
-    public boolean ifUsernameExists(String acc_no) throws SQLException {
+    public boolean accTypeExists(String acc_type) throws SQLException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String query = "select * from users where username=?";
+        String query = "SELECT * FROM accounts WHERE acc_id="+ acc_id+" and acc_type='"+acc_type+"';";
+        System.out.println(query);
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, acc_no); //setting 1st ? of SQL from acc_no
             resultSet = preparedStatement.executeQuery();
-            System.out.println(resultSet);
+            
             if (resultSet.next()) {
-                System.out.println(resultSet.getString("username"));
+
                 return true;
             } else {
                 return false;
             }
         } catch (SQLException e) {
-            return false;
+            return true;
         } finally {
             preparedStatement.close();
             resultSet.close();
         }
-
     }
-
-    public boolean isRegister(String username, String password, String address, String email, int mobile) throws SQLException {
+    public boolean isCreateAccount(int acc_no, String acc_type, String acc_details) throws SQLException {
         PreparedStatement preparedStatement = null;
         //ResultSet resultSet = null;
-        String query = "INSERT INTO `users` (username,password,address,email,mobile) VALUES ('" + username + "','" + password + "','" + address + "','" + email + "'," + mobile + ");\n";
+        String query = "INSERT INTO `accounts` (acc_no,acc_type,acc_id,acc_details) VALUES (" + acc_no + ",'" + acc_type + "'," + acc_id + ",'" + acc_details + "');\n";
+        System.out.println(query);
         try {
             preparedStatement = connection.prepareStatement(query);
-
             System.out.println(query);
-            System.out.println("Hey" + preparedStatement.execute());
+            preparedStatement.execute();
             return true;
-
+          
         } catch (SQLException e) {
-            System.out.println("Error!");
+            System.out.println("Error!" + e);
             return false;
         }
-    }
+        finally{
+            preparedStatement.close();
 
+        }
+    }
 }

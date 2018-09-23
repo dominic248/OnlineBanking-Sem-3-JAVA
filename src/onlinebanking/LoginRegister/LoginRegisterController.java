@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.BorderPane;
+
 import onlinebanking.database.DBConnected;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -33,16 +36,19 @@ import javafx.stage.Stage;
  */
 public class LoginRegisterController implements Initializable {
 
+    Pattern emailPattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+    Pattern usernamePattern = Pattern.compile("^[a-z0-9_-]{6,14}$");
     LoginModel loginModel = new LoginModel();
     DBConnected dbConnected = new DBConnected();
     RegisterModel registerModel = new RegisterModel();
 
     @FXML
     private Tab RegisterTab;
-    
+
     @FXML
     private Tab LoginTab;
-    
+
     @FXML
     private Label LisConnected;
 
@@ -167,10 +173,10 @@ public class LoginRegisterController implements Initializable {
                 || Rmobile.getText().isEmpty() || registerModel.ifUsernameExists(Rusername.getText())) {
             return;
         } else {
-            if(registerModel.isRegister(Rusername.getText(), Rpassword.getText(), Raddress.getText(), Remail.getText(), Integer.parseInt(Rmobile.getText()))){
-                System.out.println("Hello");
+            if (registerModel.isRegister(Rusername.getText(), Rpassword.getText(), Raddress.getText(), Remail.getText(), Integer.parseInt(Rmobile.getText()))) {
+                System.out.println("Done");
                 LoginRegisterTab.getSelectionModel().select(0);
-            }           
+            }
         }
     }
 
@@ -180,6 +186,13 @@ public class LoginRegisterController implements Initializable {
                 -> {
             LoginRegisterTab.setTabMinWidth((LoginRegisterTab.getWidth() - 10) / 2);
             LoginRegisterTab.setTabMaxWidth((LoginRegisterTab.getWidth() - 10) / 2);
+
+        });
+
+        Rmobile.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]*")) {
+                Rmobile.setText(oldValue);
+            }
         });
 
         if (dbConnected.isDbConnected()) {
@@ -188,5 +201,24 @@ public class LoginRegisterController implements Initializable {
             LisConnected.setText("Disconnected");
         }
 
+        Rusername.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            Matcher matcher = usernamePattern.matcher(Rusername.getText());
+            if (!matcher.matches()) {
+                RisUsername.setText("Invalid Username!");
+            } else {
+                RisUsername.setText("");
+
+            }
+
+        });
+        Remail.textProperty().addListener((observable, oldValue, newValue) -> {
+            Matcher matcher = emailPattern.matcher(Remail.getText());
+            if (!matcher.matches()) {
+                RisEmail.setText("Invalid Email!");
+            } else {
+                RisEmail.setText("");
+            }
+        });
     }
 }

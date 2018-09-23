@@ -6,14 +6,15 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="1200.0" maxWidth="590.0" style="-fx-background-color: #FFC0CB;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
         <ImageView fitHeight="191.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-        <JFXButton fx:id="drawerHome" ellipsisString="" layoutY="150.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Home" textAlignment="CENTER" />
-        <JFXButton fx:id="drawerAccountDetails" layoutY="221.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Account Details" />
-        <JFXButton layoutY="363.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Balance" />
-        <JFXButton layoutY="292.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Deposit" />
-        <JFXButton layoutY="434.0" prefHeight="83.0" prefWidth="250.0" text="Testing" />
-        <JFXButton layoutY="506.0" prefHeight="83.0" prefWidth="250.0" text="Testing" />
-   </children>
+        <JFXButton fx:id="drawerHome" ellipsisString="" layoutY="191.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Home" textAlignment="CENTER" />
+        <JFXButton fx:id="drawerAccounts" layoutY="274.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Accounts" />
+        <JFXButton fx:id="drawerFunds" layoutY="357.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Funds" />
+        <JFXButton fx:id="drawerBalance" layoutY="440.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Balance" />
+        <JFXButton fx:id="drawerActivity" layoutY="689.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Activity" />
+        <JFXButton fx:id="drawerAbout" layoutY="606.0" prefHeight="83.0" prefWidth="250.0" text="About" />
+    </children>
 </VBox>

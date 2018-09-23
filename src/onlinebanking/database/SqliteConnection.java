@@ -38,21 +38,36 @@ public class SqliteConnection {
             Connection conn = DriverManager.getConnection("jdbc:sqlite:banking.db");
 
             Statement stmt = conn.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS `users` (\n"
-                    + "	`username`	TEXT NOT NULL,\n"
+            String users = "CREATE TABLE IF NOT EXISTS `users` (\n"
+                    + "`name`	TEXT NOT NULL,	"
+                    + "`username`	TEXT NOT NULL,\n"
                     + "	`password`	TEXT NOT NULL,\n"
-                    + "	`id`	INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,\n"
+                    + "	`uid`	INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,\n"
                     + "	`address`	TEXT NOT NULL,\n"
                     + "	`email`	TEXT NOT NULL,\n"
                     + "	`mobile`	INTEGER NOT NULL\n"
-                    + ");\n"
-                    + "CREATE TABLE IF NOT EXISTS `accounts` (\n"
-                    + "	`acc_name`	TEXT NOT NULL,\n"
-                    + "	`acc_no`	INTEGER UNIQUE,\n"
-                    + "	`acc_type`	TEXT NOT NULL,\n"
-                    + "	`acc_details`	TEXT\n"
                     + ");";
-            stmt.execute(sql);
+            stmt.execute(users);
+            String accounts = "CREATE TABLE IF NOT EXISTS `accounts` (\n"
+                    + "	`acc_no`	INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE  NOT NULL ,\n"
+                    + "	`acc_type`	TEXT NOT NULL,\n"
+                    + "	`acc_details`	TEXT,\n"
+                    + "	`acc_id`	INTEGER NOT NULL,\n"
+                    + "	FOREIGN KEY (acc_id) REFERENCES users(uid)\n"
+                    + ");";
+            stmt.execute(accounts);
+            String withdraw = "CREATE TABLE IF NOT EXISTS `withdraw` (\n"
+                    + "	`wAmount`	TEXT NOT NULL,\n"
+                    + "	`waid`	INTEGER NOT NULL,\n"
+                    + "	FOREIGN KEY (waid) REFERENCES accounts(acc_no)\n"
+                    + ");";
+            stmt.execute(withdraw);
+            String deposit = "CREATE TABLE IF NOT EXISTS `deposit` (\n"
+                    + "	`dAmount`	TEXT NOT NULL,\n"
+                    + "	`daid`	INTEGER NOT NULL,\n"
+                    + "	FOREIGN KEY (daid) REFERENCES accounts(acc_no)\n"
+                    + ");";
+            stmt.execute(deposit);
 
             String sql1 = "INSERT INTO `users` (username,password,address,email,mobile) VALUES ('dms','123','asd','@gmail',768),\n"
                     + " ('dm','123','asd','@gmail',768);";

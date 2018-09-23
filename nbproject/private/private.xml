@@ -3,12 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/DisplayController.java</file>
-            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/HomePageContent.fxml</file>
-            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/mainDrawerContent.fxml</file>
-            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/HomePageContentController.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/FundsPage/FundsPageContentController.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/LoginRegister/LoginModel.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/database/SqliteConnection.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/ActivityPage/ActivityPageContentController.java</file>
             <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/LoginRegister/LoginRegisterController.java</file>
-            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/DisplayPage.fxml</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/AccountsPage/AccountsPageContentController.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/FundsPage/FundsPageContentModel.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/AccountsPage/AccountsPageContent.fxml</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/DisplayModel.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/HomePage/HomePageContentController.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/LoginRegister/RegisterModel.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/AccountsPage/AccountsPageContentModel.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/AboutPage/AboutPageContentController.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/DisplayController.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/database/DBConnected.java</file>
+            <file>file:/E:/Projects/JAVA/JavaFX/OnlineBanking/src/onlinebanking/DisplayContent/AboutPage/AboutPageContent.fxml</file>
         </group>
     </open-files>
 </project-private>

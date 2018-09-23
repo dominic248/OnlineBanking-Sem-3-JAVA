@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.onlinebanking;
+package onlinebanking;
 
 import onlinebanking.database.DBConnected;
 import onlinebanking.database.SqliteConnection;

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinebanking.DisplayContent.FundsPage.FundsPageContentController">
+    <children>
+        <JFXTabPane fx:id="mainFundsTab" prefHeight="590.0" prefWidth="1200.0">
+            <tabs>
+                <Tab fx:id="DepositTab" style="-fx-background-color: red;" text="Deposit">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <JFXTextField fx:id="Damount" layoutX="517.0" layoutY="236.0" promptText="Enter Amount" />
+                        <JFXButton fx:id="Dsubmit" layoutX="548.0" layoutY="277.0" prefHeight="38.0" prefWidth="74.0" text="Deposit" />
+                        <JFXComboBox fx:id="Daccnotype" layoutX="512.0" layoutY="183.0" prefHeight="25.0" prefWidth="138.0" />
+                     </children></AnchorPane>
+                    </content>
+                </Tab>
+            <Tab fx:id="WithdrawTab" style="-fx-background-color: red;" text="Withdraw">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <JFXTextField fx:id="Wamount" layoutX="479.0" layoutY="232.0" promptText="Enter Amount" />
+                        <JFXButton fx:id="Wsubmit" layoutX="510.0" layoutY="277.0" prefHeight="38.0" prefWidth="74.0" text="Withdraw" />
+                        <JFXComboBox fx:id="Waccnotype" layoutX="476.0" layoutY="185.0" prefHeight="25.0" prefWidth="137.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="BalanceTab" style="-fx-background-color: red;" text="Balance">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ScrollPane prefHeight="553.0" prefWidth="1200.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="707.0" prefWidth="1187.0">
+                                 <children>
+                                    <Label layoutX="580.0" layoutY="597.0" text="Label" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            </tabs>
+        </JFXTabPane>
+    </children>
+</AnchorPane>

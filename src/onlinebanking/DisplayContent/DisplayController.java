@@ -1,12 +1,11 @@
 package onlinebanking.DisplayContent;
 
-import com.jfoenix.controls.JFXButton;
+
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
+
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+
 import javafx.scene.layout.VBox;
 
 public class DisplayController implements Initializable {
@@ -34,7 +33,6 @@ public class DisplayController implements Initializable {
     @FXML
     private JFXHamburger mainHamburg;
 
-
     public void closeDrawer() {
         if (mainDrawer.isOpened()) {
             mainDrawer.close();
@@ -48,29 +46,7 @@ public class DisplayController implements Initializable {
             mainDrawer.toFront();
         }
     }
-    
-    
-//
-//    public void openHomepage() {
-//        AnchorPane newLoadedPane;
-//        try {
-//            newLoadedPane = FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/HomePageContent.fxml"));
-//            mainAnchorPane.getChildren().add(newLoadedPane);
-//        } catch (IOException ex) {
-//            Logger.getLogger(mainDrawerContentController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 
-//    public void openAccountDetailsPage() {
-//        AnchorPane newLoadedPane;
-//        try {
-//            newLoadedPane = FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/AccountDetailsPageContent.fxml"));
-//            mainAnchorPane.getChildren().add(newLoadedPane);
-//        } catch (IOException ex) {
-//            Logger.getLogger(mainDrawerContentController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -84,18 +60,58 @@ public class DisplayController implements Initializable {
                 if (node.getId() != null) {
 
                     node.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-                        
+
                         switch (node.getId()) {
-                            case "drawerHome": try {
+                            case "drawerHome":
+                                try {
                                     mainAnchorPane.getChildren().clear();
-                                    mainAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/HomePageContent.fxml")));
+                                    mainAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/HomePage/HomePageContent.fxml")));
+                                    closeDrawer();
                                 } catch (IOException ex) {
                                     Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                                 break;
-                            case "drawerAccountDetails": try {
+                            case "drawerAccounts":
+                                try {
                                     mainAnchorPane.getChildren().clear();
-                                    mainAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/AccountDetailsPageContent.fxml")));
+                                    mainAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/AccountsPage/AccountsPageContent.fxml")));
+                                    closeDrawer();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                break;
+                            case "drawerFunds":
+                                try {
+                                    mainAnchorPane.getChildren().clear();
+                                    mainAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/FundsPage/FundsPageContent.fxml")));
+                                    closeDrawer();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                break;
+//                                case "drawerBalance": try {
+//                                    mainAnchorPane.getChildren().clear();
+//                                    mainAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/AccountDetailsPageContent.fxml")));
+//                                    closeDrawer();
+//                                } catch (IOException ex) {
+//                                    Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
+//                                }
+//                                break;
+
+                            case "drawerActivity":
+                                try {
+                                    mainAnchorPane.getChildren().clear();
+                                    mainAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/ActivityPage/ActivityPageContent.fxml")));
+                                    closeDrawer();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                break;
+                            case "drawerAbout":
+                                try {
+                                    mainAnchorPane.getChildren().clear();
+                                    mainAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/AboutPage/AboutPageContent.fxml")));
+                                    closeDrawer();
                                 } catch (IOException ex) {
                                     Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -115,7 +131,10 @@ public class DisplayController implements Initializable {
             mainHeader.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                 closeDrawer();
             });
-            newLoadedPane = FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/HomePageContent.fxml"));
+            mainDrawer.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                closeDrawer();
+            });
+            newLoadedPane = FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/HomePage/HomePageContent.fxml"));
             mainAnchorPane.getChildren().add(newLoadedPane);
         } catch (IOException ex) {
             Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
