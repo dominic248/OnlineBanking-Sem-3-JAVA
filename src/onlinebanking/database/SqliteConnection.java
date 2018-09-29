@@ -69,7 +69,7 @@ public class SqliteConnection {
                     + ");";
             stmt.execute(deposit);
 
-            String sql1 = "INSERT INTO `users` (username,password,address,email,mobile) VALUES ('dms','123','asd','@gmail',768),\n"
+            String sql1 = "INSERT OR IGNORE INTO `users` (username,uid,password,address,email,mobile) VALUES ('dms',12,'123','asd','@gmail',768),\n"
                     + " ('dm','123','asd','@gmail',768);";
             stmt.execute(sql1);
             return conn;

@@ -16,6 +16,8 @@ public class LoginModel {
 
     Connection connection;
     public static int uid;
+    static PreparedStatement preparedStatement = null;
+    static ResultSet resultSet = null;
     
     
     public LoginModel() {
@@ -26,13 +28,11 @@ public class LoginModel {
     }
 
     public boolean isLogin(String username, String password) throws SQLException {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String query = "select * from users where username=? and password =?";
+        
+        String query = "select * from users where username='"+username+"' and password ='"+password+"';\n";
+        System.out.println(query);
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, username); //setting 1st ? of SQL from acc_no
-            preparedStatement.setString(2, password);   //setting 2nd ? of SQL from pass
             resultSet = preparedStatement.executeQuery();
             System.out.println(resultSet);
             if (resultSet.next()) {
@@ -47,6 +47,19 @@ public class LoginModel {
         } finally {
             preparedStatement.close();
             resultSet.close();
+        }
+    }
+    
+    public void setLoginTime(){
+        String query = "INSERT INTO `activity` (aid,aDate) VALUES ("+uid+",datetime('now', 'localtime'));\n";
+        System.out.println(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            System.out.println("Error in DateTime");
+        } finally {
+            System.out.println("Executed!");
         }
     }
 }

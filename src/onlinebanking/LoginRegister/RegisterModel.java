@@ -19,6 +19,9 @@ public class RegisterModel {
 
     Connection connection;
 
+    static PreparedStatement preparedStatement = null;
+    static ResultSet resultSet = null;
+
     public RegisterModel() {
         connection = SqliteConnection.connector();
         if (connection == null) {
@@ -27,8 +30,6 @@ public class RegisterModel {
     }
 
     public boolean ifUsernameExists(String acc_no) throws SQLException {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String query = "select * from users where username=?";
         try {
             preparedStatement = connection.prepareStatement(query);
@@ -50,10 +51,8 @@ public class RegisterModel {
 
     }
 
-    public boolean isRegister(String username, String password, String address, String email, int mobile) throws SQLException {
-        PreparedStatement preparedStatement = null;
-        //ResultSet resultSet = null;
-        String query = "INSERT INTO `users` (username,password,address,email,mobile) VALUES ('" + username + "','" + password + "','" + address + "','" + email + "'," + mobile + ");\n";
+    public boolean isRegister(String name, String username, String password, String address, String email, int mobile) throws SQLException {
+        String query = "INSERT INTO `users` (name,username,password,address,email,mobile,uDate) VALUES ('" + name + "','" + username + "','" + password + "','" + address + "','" + email + "'," + mobile + ",datetime('now', 'localtime'));\n";
         try {
             preparedStatement = connection.prepareStatement(query);
 

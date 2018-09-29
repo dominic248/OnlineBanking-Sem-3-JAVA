@@ -15,7 +15,10 @@ import onlinebanking.database.SqliteConnection;
  * @author dms
  */
 public class AccountsPageContentModel {
+
     Connection connection;
+    static PreparedStatement preparedStatement = null;
+    static ResultSet resultSet = null;
     public static int acc_id = LoginModel.uid;
 
     public AccountsPageContentModel() {
@@ -26,14 +29,11 @@ public class AccountsPageContentModel {
     }
 
     public boolean accTypeExists(String acc_type) throws SQLException {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String query = "SELECT * FROM accounts WHERE acc_id="+ acc_id+" and acc_type='"+acc_type+"';";
+        String query = "SELECT * FROM accounts WHERE acc_id=" + acc_id + " and acc_type='" + acc_type + "';";
         System.out.println(query);
         try {
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
-            
             if (resultSet.next()) {
 
                 return true;
@@ -47,22 +47,19 @@ public class AccountsPageContentModel {
             resultSet.close();
         }
     }
-    public boolean isCreateAccount(int acc_no, String acc_type, String acc_details) throws SQLException {
-        PreparedStatement preparedStatement = null;
-        //ResultSet resultSet = null;
-        String query = "INSERT INTO `accounts` (acc_no,acc_type,acc_id,acc_details) VALUES (" + acc_no + ",'" + acc_type + "'," + acc_id + ",'" + acc_details + "');\n";
+
+    public boolean isCreateAccount(int acc_no, String acc_type, String acc_details,int acc_amount) throws SQLException {
+        String query = "INSERT INTO `accounts` (acc_no,acc_id,acc_type,acc_details,acc_amount,acc_date) VALUES (" + acc_no + ","+acc_id+",'" + acc_type + "','" + acc_details + "',"+acc_amount+",datetime('now', 'localtime'));\n";
         System.out.println(query);
         try {
             preparedStatement = connection.prepareStatement(query);
-            System.out.println(query);
             preparedStatement.execute();
             return true;
-          
+
         } catch (SQLException e) {
             System.out.println("Error!" + e);
             return false;
-        }
-        finally{
+        } finally {
             preparedStatement.close();
 
         }

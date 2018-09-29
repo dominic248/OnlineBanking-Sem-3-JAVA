@@ -7,14 +7,14 @@
 <?import javafx.scene.layout.*?>
 
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
+<AnchorPane prefHeight="590.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
         <ImageView fitHeight="191.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-        <JFXButton fx:id="drawerHome" ellipsisString="" layoutY="191.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Home" textAlignment="CENTER" />
-        <JFXButton fx:id="drawerAccounts" layoutY="274.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Accounts" />
-        <JFXButton fx:id="drawerFunds" layoutY="357.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Funds" />
-        <JFXButton fx:id="drawerBalance" layoutY="440.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Balance" />
-        <JFXButton fx:id="drawerActivity" layoutY="689.0" prefHeight="83.0" prefWidth="250.0" ripplerFill="#898989" text="Activity" />
-        <JFXButton fx:id="drawerAbout" layoutY="606.0" prefHeight="83.0" prefWidth="250.0" text="About" />
-    </children>
-</VBox>
+        <JFXButton fx:id="drawerHome" ellipsisString="" layoutY="191.0" prefHeight="55.0" prefWidth="250.0" ripplerFill="#898989" text="Home" textAlignment="CENTER" />
+        <JFXButton fx:id="drawerAccounts" layoutY="246.0" prefHeight="55.0" prefWidth="250.0" ripplerFill="#898989" text="Accounts" />
+        <JFXButton fx:id="drawerFunds" layoutY="298.0" prefHeight="55.0" prefWidth="250.0" ripplerFill="#898989" text="Funds" />
+        <JFXButton fx:id="drawerAbout" layoutY="408.0" prefHeight="49.0" prefWidth="250.0" text="About" />
+        <JFXButton fx:id="drawerActivity" layoutY="353.0" prefHeight="55.0" prefWidth="250.0" ripplerFill="#898989" text="Activity" />
+      <Label fx:id="Userame" layoutX="16.0" layoutY="126.0" prefHeight="40.0" prefWidth="218.0" text="Label" />
+   </children>
+</AnchorPane>

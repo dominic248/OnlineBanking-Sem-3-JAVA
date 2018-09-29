@@ -15,9 +15,11 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <JFXTextField fx:id="Damount" layoutX="517.0" layoutY="236.0" promptText="Enter Amount" />
-                        <JFXButton fx:id="Dsubmit" layoutX="548.0" layoutY="277.0" prefHeight="38.0" prefWidth="74.0" text="Deposit" />
-                        <JFXComboBox fx:id="Daccnotype" layoutX="512.0" layoutY="183.0" prefHeight="25.0" prefWidth="138.0" />
+                        <JFXTextField fx:id="Damount" labelFloat="true" layoutX="510.0" layoutY="236.0" prefHeight="25.0" prefWidth="142.0" promptText="Enter Amount" />
+                        <JFXButton fx:id="Dsubmit" layoutX="548.0" layoutY="277.0" onAction="#Deposit" prefHeight="38.0" prefWidth="74.0" text="Deposit" />
+                        <JFXComboBox fx:id="Daccnotype" labelFloat="true" layoutX="512.0" layoutY="183.0" prefHeight="25.0" prefWidth="138.0" promptText="Select Account" />
+                        <Label fx:id="isDaccnotype" layoutX="512.0" layoutY="208.0" prefHeight="17.0" prefWidth="137.0" textFill="RED" />
+                        <Label fx:id="isDamount" layoutX="511.0" layoutY="261.0" prefHeight="17.0" prefWidth="140.0" textFill="RED" />
                      </children></AnchorPane>
                     </content>
                 </Tab>
@@ -25,28 +27,32 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <JFXTextField fx:id="Wamount" layoutX="479.0" layoutY="232.0" promptText="Enter Amount" />
-                        <JFXButton fx:id="Wsubmit" layoutX="510.0" layoutY="277.0" prefHeight="38.0" prefWidth="74.0" text="Withdraw" />
-                        <JFXComboBox fx:id="Waccnotype" layoutX="476.0" layoutY="185.0" prefHeight="25.0" prefWidth="137.0" />
+                        <JFXTextField fx:id="Wamount" labelFloat="true" layoutX="475.0" layoutY="232.0" prefHeight="25.0" prefWidth="139.0" promptText="Enter Amount" />
+                        <JFXButton fx:id="Wsubmit" layoutX="510.0" layoutY="277.0" onAction="#Withdraw" prefHeight="38.0" prefWidth="74.0" text="Withdraw" />
+                        <JFXComboBox fx:id="Waccnotype" labelFloat="true" layoutX="476.0" layoutY="185.0" prefHeight="25.0" prefWidth="137.0" promptText="Select Account" />
+                        <Label fx:id="isWaccnotype" layoutX="475.0" layoutY="210.0" prefHeight="17.0" prefWidth="136.0" textFill="RED" />
+                        <Label fx:id="isWamount" layoutX="474.0" layoutY="257.0" prefHeight="17.0" prefWidth="137.0" textFill="RED" />
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
+            <Tab fx:id="TransferTab" style="-fx-background-color: red;" text="Transfer">
+              <content>
+                <AnchorPane fx:id="TransferTab" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <JFXComboBox fx:id="currentAcc" labelFloat="true" layoutX="503.0" layoutY="104.0" prefHeight="25.0" prefWidth="195.0" promptText="Account to Transfer" />
+                        <JFXTextField fx:id="transferAcc" labelFloat="true" layoutX="503.0" layoutY="176.0" prefHeight="25.0" prefWidth="199.0" promptText="Transfer to Account" />
+                        <JFXTextField fx:id="transferAmount" labelFloat="true" layoutX="505.0" layoutY="252.0" prefHeight="25.0" prefWidth="198.0" promptText="Amount to Transfer" />
+                        <JFXButton fx:id="Tsubmit" layoutX="574.0" layoutY="311.0" onAction="#Transfer" text="Transfer" />
+                        <Label fx:id="isCurrentAcc" layoutX="503.0" layoutY="129.0" prefHeight="27.0" prefWidth="193.0" text="Label" />
+                        <Label fx:id="isTransferAcc" layoutX="502.0" layoutY="201.0" prefHeight="26.0" prefWidth="204.0" text="Label" />
+                        <Label fx:id="isTransferAmount" layoutX="502.0" layoutY="277.0" prefHeight="29.0" prefWidth="201.0" text="Label" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
             <Tab fx:id="BalanceTab" style="-fx-background-color: red;" text="Balance">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ScrollPane prefHeight="553.0" prefWidth="1200.0">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="707.0" prefWidth="1187.0">
-                                 <children>
-                                    <Label layoutX="580.0" layoutY="597.0" text="Label" />
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                        </ScrollPane>
-                     </children>
-                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                </content>
             </Tab>
             </tabs>

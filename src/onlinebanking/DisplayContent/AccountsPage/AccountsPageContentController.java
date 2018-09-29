@@ -30,7 +30,7 @@ import javafx.scene.control.Tab;
  */
 public class AccountsPageContentController implements Initializable {
 
-    AccountsPageContentModel createAccModel = new AccountsPageContentModel();
+    AccountsPageContentModel AccModel = new AccountsPageContentModel();
     Random random = new Random();
     ObservableList<String> Macc_type = FXCollections.observableArrayList("Student", "Savings","Current");
 
@@ -54,6 +54,8 @@ public class AccountsPageContentController implements Initializable {
 
     @FXML
     private Label iscaAcc_type;
+    @FXML
+    private JFXTextField caAccAmount;
 
     public void CreateAccount(ActionEvent event) throws SQLException {
         if (caAcc_type.getValue() != null) {
@@ -66,9 +68,9 @@ public class AccountsPageContentController implements Initializable {
         if ((caAcc_no.getText().isEmpty() || caAcc_type.getValue() == null) || caAcc_desc.getText().isEmpty()) {
             System.out.println("?");
         } else {
-            if (!createAccModel.accTypeExists(caAcc_type.getValue())) {
+            if (!AccModel.accTypeExists(caAcc_type.getValue())) {
                 iscaAcc_type.setText("");
-                if (createAccModel.isCreateAccount(Integer.parseInt(caAcc_no.getText()), caAcc_type.getValue(), caAcc_desc.getText())) {
+                if (AccModel.isCreateAccount(Integer.parseInt(caAcc_no.getText()), caAcc_type.getValue(), caAcc_desc.getText(),Integer.parseInt(caAccAmount.getText()))) {
                     System.out.println("Done");
                     mainAccountsTab.getSelectionModel().select(0);
                 }

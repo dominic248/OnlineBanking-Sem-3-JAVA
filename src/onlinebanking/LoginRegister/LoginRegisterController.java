@@ -72,6 +72,9 @@ public class LoginRegisterController implements Initializable {
 
     @FXML
     private JFXTextField Rmobile;
+    
+    @FXML
+    private JFXTextField Rname;
 
     @FXML
     private Label RisConnected;
@@ -128,7 +131,7 @@ public class LoginRegisterController implements Initializable {
                     Scene scene = new Scene(loader);
                     stage.setScene(scene);
                     stage.show();
-
+                    loginModel.setLoginTime();
                 } else {
                     LisConnected.setText("Username and password is wrong");
                 }
@@ -168,12 +171,12 @@ public class LoginRegisterController implements Initializable {
             RisMobile.setText("");
         }
 
-        if (Rusername.getText().isEmpty() || Rpassword.getText().isEmpty()
+        if (Rusername.getText().isEmpty() || Rpassword.getText().isEmpty() || Rname.getText().isEmpty()
                 || Raddress.getText().isEmpty() || Remail.getText().isEmpty()
                 || Rmobile.getText().isEmpty() || registerModel.ifUsernameExists(Rusername.getText())) {
             return;
         } else {
-            if (registerModel.isRegister(Rusername.getText(), Rpassword.getText(), Raddress.getText(), Remail.getText(), Integer.parseInt(Rmobile.getText()))) {
+            if (registerModel.isRegister(Rname.getText(),Rusername.getText(), Rpassword.getText(), Raddress.getText(), Remail.getText(), Integer.parseInt(Rmobile.getText()))) {
                 System.out.println("Done");
                 LoginRegisterTab.getSelectionModel().select(0);
             }
@@ -184,8 +187,8 @@ public class LoginRegisterController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         LoginRegisterTab.widthProperty().addListener((observable, oldValue, newValue)
                 -> {
-            LoginRegisterTab.setTabMinWidth((LoginRegisterTab.getWidth() - 10) / 2);
-            LoginRegisterTab.setTabMaxWidth((LoginRegisterTab.getWidth() - 10) / 2);
+            LoginRegisterTab.setTabMinWidth(((LoginRegisterTab.getWidth()) / 2)-5);
+            LoginRegisterTab.setTabMaxWidth(((LoginRegisterTab.getWidth()) / 2)-5);
 
         });
 

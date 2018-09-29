@@ -61,6 +61,7 @@
                                         <Label fx:id="RisAddress" layoutX="417.0" layoutY="295.0" prefHeight="17.0" prefWidth="166.0" textFill="RED" />
                                         <Label fx:id="RisEmail" layoutX="417.0" layoutY="356.0" prefHeight="17.0" prefWidth="166.0" textFill="RED" />
                                         <Label fx:id="RisMobile" layoutX="417.0" layoutY="414.0" prefHeight="17.0" prefWidth="166.0" textFill="RED" />
+                              <JFXTextField fx:id="Rname" labelFloat="true" layoutX="417.0" layoutY="91.0" promptText="Name" />
                                     </children>
                                 </Pane>
                             </children>
