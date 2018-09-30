@@ -4,27 +4,18 @@
  * and open the template in the editor.
  */
 package onlinebanking;
-
-import onlinebanking.database.DBConnected;
 import onlinebanking.database.SqliteConnection;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle; //StageStyle.DECORATED
 
-/**
- *
- * @author dms
- */
+
 public class OnlineBanking extends Application {
 
     Stage stage;
@@ -58,5 +49,4 @@ public class OnlineBanking extends Application {
         //DBConnected dbConnected = new DBConnected();
         launch(args);
     }
-
 }

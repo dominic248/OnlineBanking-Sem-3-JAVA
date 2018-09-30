@@ -25,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.AnchorPane;
 
 import onlinebanking.database.DBConnected;
 import javafx.scene.layout.StackPane;
@@ -44,22 +45,28 @@ public class LoginRegisterController implements Initializable {
     RegisterModel registerModel = new RegisterModel();
 
     @FXML
-    private Tab RegisterTab;
-
-    @FXML
-    private Tab LoginTab;
-
-    @FXML
     private Label LisConnected;
 
     @FXML
-    private Pane LrootPane;
+    private AnchorPane RrootPane;
 
     @FXML
-    private JFXButton Llogin_btn;
+    private Label RisEmail;
 
     @FXML
-    private JFXPasswordField Lpassword;
+    private Tab RegisterTab;
+
+    @FXML
+    private Label RisUsername;
+
+    @FXML
+    private JFXTextField Raddress;
+
+    @FXML
+    private StackPane root;
+
+    @FXML
+    private Label RisAddress;
 
     @FXML
     private JFXTextField Lusername;
@@ -68,64 +75,75 @@ public class LoginRegisterController implements Initializable {
     private JFXPasswordField Rpassword;
 
     @FXML
-    private JFXTextField Raddress;
-
-    @FXML
-    private JFXTextField Rmobile;
-    
-    @FXML
-    private JFXTextField Rname;
-
-    @FXML
-    private Label RisConnected;
-
-    @FXML
-    private JFXButton Rregister_btn;
-
-    @FXML
-    private JFXTextField Remail;
-
-    @FXML
-    private JFXTextField Rusername;
-
-    @FXML
-    private Label RisUsername;
-
-    @FXML
-    private Label RisAddress;
-
-    @FXML
-    private Label RisPassword;
-
-    @FXML
-    private Label RisEmail;
+    private Label Lispassword;
 
     @FXML
     private Label RisMobile;
 
     @FXML
+    private JFXButton Rregister_btn;
+
+    @FXML
+    private JFXButton Llogin_btn;
+
+    @FXML
+    private JFXTextField Remail;
+
+    @FXML
+    private Tab LoginTab;
+
+    @FXML
+    private Label Lisusername;
+
+    @FXML
     private JFXTabPane LoginRegisterTab;
 
     @FXML
-    private StackPane root;
+    private JFXTextField Rname;
+
+    @FXML
+    private AnchorPane LrootPane;
+
+    @FXML
+    private Label RisConnected;
+
+    @FXML
+    private Label RisName;
+
+    @FXML
+    private Label RisPassword;
+
+    @FXML
+    private JFXPasswordField Lpassword;
+
+    @FXML
+    private JFXTextField Rusername;
+
+    @FXML
+    private JFXTextField Rmobile;
 
     @FXML
     public void Login(ActionEvent event) throws SQLException, IOException {
         Stage stage;
         Parent loader;
         if (Lusername.getText().isEmpty() && Lpassword.getText().isEmpty()) {
-            LisConnected.setText("Both are Empty");
+            Lisusername.setText("Username cannot be Empty");
+            Lispassword.setText("Password cannot be Empty");
             return;
         } else if (Lpassword.getText().isEmpty()) {
-            LisConnected.setText("Password?");
+            Lispassword.setText("Password cannot be Empty");
+            Lisusername.setText("");
             return;
         } else if (Lusername.getText().isEmpty()) {
-            LisConnected.setText("Account?");
+            Lisusername.setText("Username cannot be Empty");
+            Lispassword.setText("");
             return;
         } else {
+            Lisusername.setText("");
+            Lispassword.setText("");
             try {
                 if (loginModel.isLogin(Lusername.getText(), Lpassword.getText())) {
-                    LisConnected.setText("Username and password is correct");
+                    Lispassword.setText("Username and password is correct");
                     stage = (Stage) Llogin_btn.getScene().getWindow();
                     loader = FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/DisplayPage.fxml"));
                     Scene scene = new Scene(loader);
@@ -133,10 +151,10 @@ public class LoginRegisterController implements Initializable {
                     stage.show();
                     loginModel.setLoginTime();
                 } else {
-                    LisConnected.setText("Username and password is wrong");
+                    Lispassword.setText("Username or password is wrong");
                 }
             } catch (SQLException e) {
-                LisConnected.setText("Username and password is wrong");
+                Lispassword.setText("Username or password is wrong");
                 e.printStackTrace();
             }
         }
@@ -149,6 +167,11 @@ public class LoginRegisterController implements Initializable {
             RisUsername.setText("Username already exists!");
         } else {
             RisUsername.setText("");
+        }
+        if (Rname.getText().isEmpty()) {
+            RisName.setText("Name cannot be blank!");
+        } else {
+            RisName.setText("");
         }
         if (Rpassword.getText().isEmpty()) {
             RisPassword.setText("Password cannot be blank!");

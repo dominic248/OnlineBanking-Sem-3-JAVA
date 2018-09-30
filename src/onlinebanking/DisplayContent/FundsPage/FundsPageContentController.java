@@ -11,13 +11,22 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
+import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,7 +36,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import javafx.scene.control.Tab;
-
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.util.Callback;
+import onlinebanking.DisplayContent.ActivityPage.ActivityPageContentController;
+import onlinebanking.LoginRegister.LoginModel;
+import onlinebanking.database.SqliteConnection;
 
 /**
  *
@@ -37,6 +51,7 @@ public class FundsPageContentController implements Initializable {
 
     public static String[] splited = new String[4];
     FundsPageContentModel fundsModel = new FundsPageContentModel();
+
     @FXML
     private Tab WithdrawTab;
 
@@ -97,7 +112,6 @@ public class FundsPageContentController implements Initializable {
     @FXML
     private JFXTextField transferAmount;
 
-
     @FXML
     private JFXListView<JFXButton> listBalance;
 
@@ -120,8 +134,9 @@ public class FundsPageContentController implements Initializable {
             System.out.println("?");
         } else {
             try {
-                if (fundsModel.depositDone(Integer.parseInt(splited[0]), Integer.parseInt(Damount.getText()))) {
-                    if (fundsModel.checkDeposit(Integer.parseInt(splited[0]), Integer.parseInt(Damount.getText()))) {
+
+                if (fundsModel.checkDeposit(Integer.parseInt(splited[0]), Integer.parseInt(Damount.getText()))) {
+                    if (fundsModel.depositDone(Integer.parseInt(splited[0]), Integer.parseInt(Damount.getText()))) {
                         isDamount.setText("");
                     } else {
                         isDamount.setText("Insufficient amount!");
@@ -155,8 +170,9 @@ public class FundsPageContentController implements Initializable {
             System.out.println("?");
         } else {
             try {
-                if (fundsModel.withdrawDone(Integer.parseInt(splited[0]), Integer.parseInt(Wamount.getText()))) {
-                    if (fundsModel.checkWithdraw(Integer.parseInt(splited[0]), Integer.parseInt(Wamount.getText()))) {
+                if (fundsModel.checkWithdraw(Integer.parseInt(splited[0]), Integer.parseInt(Wamount.getText()))) {
+                    if (fundsModel.withdrawDone(Integer.parseInt(splited[0]), Integer.parseInt(Wamount.getText()))) {
+
                         isWamount.setText("");
                     } else {
                         isWamount.setText("Insufficient amount!");
@@ -197,8 +213,9 @@ public class FundsPageContentController implements Initializable {
             System.out.println("?");
         } else {
             try {
-                if (fundsModel.transferDone(Integer.parseInt(splited[0]), Integer.parseInt(transferAcc.getText()), Integer.parseInt(transferAmount.getText()))) {
-                    if (fundsModel.checkTransfer(Integer.parseInt(splited[0]), Integer.parseInt(transferAcc.getText()), Integer.parseInt(transferAmount.getText()))) {
+                if (fundsModel.checkTransfer(Integer.parseInt(splited[0]), Integer.parseInt(transferAcc.getText()), Integer.parseInt(transferAmount.getText()))) {
+                    if (fundsModel.transferDone(Integer.parseInt(splited[0]), Integer.parseInt(transferAcc.getText()), Integer.parseInt(transferAmount.getText()))) {
+
                         isTransferAmount.setText("");
                     } else {
                         isTransferAmount.setText("Insufficient amount!");
@@ -237,11 +254,6 @@ public class FundsPageContentController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(FundsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        for(int i=0;i<30;i++){
-//            JFXButton butt=new JFXButton("item"+i);
-//            listBalance.getItems().add(butt);
-//        }   
 
-    
     }
 }

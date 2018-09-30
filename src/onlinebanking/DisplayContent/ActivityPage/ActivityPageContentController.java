@@ -11,7 +11,13 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -24,12 +30,28 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.FlowPane;
 import javafx.util.Callback;
+import onlinebanking.LoginRegister.LoginModel;
+import onlinebanking.database.SqliteConnection;
 
 /**
  *
  * @author dms
  */
 public class ActivityPageContentController implements Initializable {
+
+    static ObservableList<Transactions> data = FXCollections.observableArrayList();
+    Connection connection;
+    static PreparedStatement preparedStatement = null;
+    static ResultSet resultSet = null;
+    static ResultSet resultSet1 = null;
+    public static int acc_id = LoginModel.uid;
+
+    public ActivityPageContentController() {
+        connection = SqliteConnection.connector();
+        if (connection == null) {
+            System.exit(1);
+        }
+    }
 
     @FXML
     private Tab BalanceTab;
@@ -44,8 +66,45 @@ public class ActivityPageContentController implements Initializable {
     private FlowPane TransFlow;
 
     @FXML
-    private JFXTreeTableView<User> TransTable;
-    
+    private JFXTreeTableView<Transactions> TransTable;
+
+    public void getData() {
+        String toAcc;
+        String query = "select daid as CurrentAccount, null as ToAccount, damount as Amount, dDate as Date, op as Op from deposit where daid in (select acc_no from accounts where acc_id="+acc_id+")\n"
+                + "UNION\n"
+                + "select waid as CurrentAccount, null as ToAccount, wamount as Amount, wDate as Date, op as Op from withdraw where waid in (select acc_no from accounts where acc_id="+acc_id+")\n"
+                + "UNION\n"
+                + "select tAccno as CurrentAccount, tToAccno as ToAccount, tamount as Amount, tDate as Date, op as Op from transfer where tAccno in (select acc_no from accounts where acc_id="+acc_id+");";
+        System.out.println(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                if(resultSet.getInt("ToAccount")==0){
+                    toAcc="-";
+                }else{
+                    toAcc=Integer.toString(resultSet.getInt("ToAccount"));
+                }
+                
+                data.add(new Transactions(Integer.toString(resultSet.getInt("CurrentAccount")), 
+                        toAcc,
+                        Integer.toString(resultSet.getInt("Amount")),
+                        resultSet.getString("Date"),
+                        resultSet.getString("Op")
+                ));
+            } 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+                resultSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ActivityPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mainActivityTab.widthProperty().addListener((observable, oldValue, newValue)
@@ -54,52 +113,71 @@ public class ActivityPageContentController implements Initializable {
             mainActivityTab.setTabMaxWidth((mainActivityTab.getWidth() - 10) / 2);
 
         });
-        
-        JFXTreeTableColumn<User,String> currAccCol=new JFXTreeTableColumn<>("Current Account");
+
+        JFXTreeTableColumn<Transactions, String> currAccCol = new JFXTreeTableColumn<>("Current Account");
         currAccCol.setPrefWidth(150);
-        currAccCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<User,String>,ObservableValue<String>>() {
+        currAccCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Transactions, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<User, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Transactions, String> param) {
                 return param.getValue().getValue().currAcc;
             }
         });
-        JFXTreeTableColumn<User,String> toAccCol=new JFXTreeTableColumn<>("To Account");
+        JFXTreeTableColumn<Transactions, String> toAccCol = new JFXTreeTableColumn<>("To Account");
         toAccCol.setPrefWidth(150);
-        toAccCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<User,String>,ObservableValue<String>>() {
+        toAccCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Transactions, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<User, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Transactions, String> param) {
                 return param.getValue().getValue().toAcc;
             }
         });
-        JFXTreeTableColumn<User,String> Amount=new JFXTreeTableColumn<>("Amount");
-        Amount.setPrefWidth(150);
-        Amount.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<User,String>,ObservableValue<String>>() {
+        JFXTreeTableColumn<Transactions, String> amount = new JFXTreeTableColumn<>("Amount");
+        amount.setPrefWidth(150);
+        amount.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Transactions, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<User, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Transactions, String> param) {
                 return param.getValue().getValue().Amount;
             }
         });
-        ObservableList<User> users=FXCollections.observableArrayList();
-        users.add(new User("1kj2", "1kj2", "1kjk2"));
-        final TreeItem<User> root=new RecursiveTreeItem<User>(users,RecursiveTreeObject::getChildren);
-        TransTable.getColumns().setAll(currAccCol,toAccCol,Amount);
+        JFXTreeTableColumn<Transactions, String> date = new JFXTreeTableColumn<>("Date");
+        date.setPrefWidth(150);
+        date.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Transactions, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Transactions, String> param) {
+                return param.getValue().getValue().Date;
+            }
+        });
+        JFXTreeTableColumn<Transactions, String> op = new JFXTreeTableColumn<>("Operation");
+        op.setPrefWidth(150);
+        op.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Transactions, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Transactions, String> param) {
+                return param.getValue().getValue().OP;
+            }
+        });
+        
+//        users.add(new User("1kj2", "1kj2", "1kjk2"));
+        getData();
+        final TreeItem<Transactions> root = new RecursiveTreeItem<Transactions>(data, RecursiveTreeObject::getChildren);
+        TransTable.getColumns().setAll(currAccCol, toAccCol, amount,date,op);
         TransTable.setRoot(root);
         TransTable.setShowRoot(false);
-        
-        
+
     }
 
-    class User extends RecursiveTreeObject<User>{
+    class Transactions extends RecursiveTreeObject<Transactions> {
 
         StringProperty currAcc;
         StringProperty toAcc;
         StringProperty Amount;
         StringProperty Date;
-        StringProperty op;
-        public User(String currAcc,String toAcc,String Amount) {
-            this.currAcc=new SimpleStringProperty(currAcc);
-            this.toAcc=new SimpleStringProperty(toAcc);
-            this.Amount=new SimpleStringProperty(Amount);
+        StringProperty OP;
+
+        public Transactions(String currAcc, String toAcc, String Amount,String Date,String OP) {
+            this.currAcc = new SimpleStringProperty(currAcc);
+            this.toAcc = new SimpleStringProperty(toAcc);
+            this.Amount = new SimpleStringProperty(Amount);
+            this.Date = new SimpleStringProperty(Date);
+            this.OP = new SimpleStringProperty(OP);
         }
     }
 

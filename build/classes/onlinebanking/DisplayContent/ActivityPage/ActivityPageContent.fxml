@@ -11,7 +11,7 @@
     <children>
         <JFXTabPane fx:id="mainActivityTab" prefHeight="590.0" prefWidth="1200.0">
          <tabs>
-            <Tab fx:id="BalanceTab" style="-fx-background-color: red;" text="Balance">
+            <Tab fx:id="TransactionsTab" style="-fx-background-color: red;" text="Transactions">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
