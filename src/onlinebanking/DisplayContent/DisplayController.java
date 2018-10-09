@@ -1,10 +1,16 @@
 package onlinebanking.DisplayContent;
 
-
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
+import java.awt.Color;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ResourceBundle;
@@ -14,22 +20,78 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import onlinebanking.LoginRegister.LoginModel;
+import onlinebanking.OnlineBanking;
+import onlinebanking.database.SqliteConnection;
 
 public class DisplayController implements Initializable {
 
-    DisplayModel display=new DisplayModel();
-    
+    public static int uid;
+    Connection connection;
+    static PreparedStatement preparedStatement = null;
+    static ResultSet resultSet = null;
+    public DisplayController() {
+        connection = SqliteConnection.connector();
+        if (connection == null) {
+            System.exit(1);
+        }
+    }
+    public String getUsername() throws SQLException {
+        String query = "SELECT * FROM users WHERE uid=" + uid + ";";
+        System.out.println(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            return resultSet.getString("name");
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            preparedStatement.close();
+            resultSet.close();
+        }
+    }
+    public Image getImage() throws SQLException {
+        String query = "SELECT * FROM users WHERE uid=" + uid + ";";
+        System.out.println(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.getBytes("uImage")==null){
+                return null;
+            }else{
+                InputStream input = new ByteArrayInputStream(resultSet.getBytes("uImage"));
+                Image image = new Image(input);
+                return image;
+            }         
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            preparedStatement.close();
+            resultSet.close();
+        }
+    }
+
+    Stage stage;
+
+
     @FXML
     private Label mainHeading;
-    
+
     @FXML
-    private AnchorPane mainAnchorPane;
+    private AnchorPane mainAnchorPane,rootAnchor;
 
     @FXML
     private JFXDrawer mainDrawer;
@@ -39,23 +101,31 @@ public class DisplayController implements Initializable {
 
     @FXML
     private JFXHamburger mainHamburg;
+    
+    @FXML
+    private JFXButton drawerLogout;
 
     public void closeDrawer() {
         if (mainDrawer.isOpened()) {
             mainDrawer.close();
             mainDrawer.toBack();
+            rootAnchor.toBack();
+            rootAnchor.setStyle("-fx-background-color: white;");
         }
     }
 
     public void openDrawer() {
         if (mainDrawer.isClosed()) {
             mainDrawer.open();
+            rootAnchor.toFront();
+            rootAnchor.setStyle("-fx-background-color: #d2d2d2;");
             mainDrawer.toFront();
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        uid = LoginModel.uid;
         try {
             AnchorPane newLoadedPane;
             AnchorPane box = FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/mainDrawerContent.fxml"));
@@ -66,11 +136,21 @@ public class DisplayController implements Initializable {
                 System.out.println(node.getId());
                 if (node instanceof Label) {
                     try {
-                        ((Label)node).setText(display.getUsername());
+                        ((Label) node).setText(getUsername());
+                        
                     } catch (SQLException ex) {
                         Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                if (node instanceof ImageView) {
+                    try {
+                        ((ImageView) node).setImage(getImage());
+                        
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
                 if (node.getId() != null) {
 
                     node.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
@@ -135,6 +215,21 @@ public class DisplayController implements Initializable {
                                     Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                                 break;
+                            case "drawerLogout":
+                                try {
+                                    Stage stage;
+                                    Parent loader;
+
+                                    loader = FXMLLoader.load(getClass().getResource("/onlinebanking/LoginRegister/LoginRegisterPage.fxml"));
+                                    
+                                    stage = OnlineBanking.stage;
+                                    stage.getScene().setRoot(loader);
+                                    stage.show();
+
+                                } catch (IOException ex) {
+                                    Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                break;
 
                         }
                     });
@@ -153,8 +248,12 @@ public class DisplayController implements Initializable {
             mainDrawer.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                 closeDrawer();
             });
+            rootAnchor.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                closeDrawer();
+            });
             newLoadedPane = FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/HomePage/HomePageContent.fxml"));
             mainAnchorPane.getChildren().add(newLoadedPane);
+            
         } catch (IOException ex) {
             Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
         }

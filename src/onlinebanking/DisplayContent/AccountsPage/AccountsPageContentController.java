@@ -29,6 +29,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,13 +48,12 @@ import onlinebanking.database.SqliteConnection;
  */
 public class AccountsPageContentController implements Initializable {
 
-
     static ObservableList<AccInfo> data = FXCollections.observableArrayList();
     Connection connection;
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet = null;
     static ResultSet resultSet1 = null;
-    public static int acc_id = LoginModel.uid;
+    public static int acc_id;
 
     public AccountsPageContentController() {
         connection = SqliteConnection.connector();
@@ -61,9 +61,46 @@ public class AccountsPageContentController implements Initializable {
             System.exit(1);
         }
     }
-    AccountsPageContentModel AccModel = new AccountsPageContentModel();
+
     Random random = new Random();
     ObservableList<String> Macc_type = FXCollections.observableArrayList("Student", "Savings", "Current");
+
+    public boolean accTypeExists(String acc_type) throws SQLException {
+        String query = "SELECT * FROM accounts WHERE acc_id=" + acc_id + " and acc_type='" + acc_type + "';";
+        System.out.println(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            return true;
+        } finally {
+            preparedStatement.close();
+            resultSet.close();
+        }
+    }
+
+    public boolean isCreateAccount(int acc_no, String acc_type, String acc_details, int acc_amount) throws SQLException {
+        String query = "INSERT INTO `accounts` (acc_no,acc_id,acc_type,acc_details,acc_amount,acc_date) VALUES (" + acc_no + "," + acc_id + ",'" + acc_type + "','" + acc_details + "'," + acc_amount + ",datetime('now', 'localtime'));\n";
+        System.out.println(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.execute();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Error!" + e);
+            return false;
+        } finally {
+            preparedStatement.close();
+
+        }
+    }
 
     @FXML
     private JFXTreeTableView<AccInfo> AccInfoTable;
@@ -99,12 +136,12 @@ public class AccountsPageContentController implements Initializable {
             iscaAcc_type.setText("Please choose the type!");
         }
 
-        if ((caAcc_no.getText().isEmpty() || caAcc_type.getValue() == null) || caAcc_desc.getText().isEmpty()) {
+        if (caAcc_no.getText().isEmpty() || caAcc_type.getValue() == null || caAcc_desc.getText().isEmpty()) {
             System.out.println("?");
         } else {
-            if (!AccModel.accTypeExists(caAcc_type.getValue())) {
+            if (!accTypeExists(caAcc_type.getValue())) {
                 iscaAcc_type.setText("");
-                if (AccModel.isCreateAccount(Integer.parseInt(caAcc_no.getText()), caAcc_type.getValue(), caAcc_desc.getText(), Integer.parseInt(caAccAmount.getText()))) {
+                if (isCreateAccount(Integer.parseInt(caAcc_no.getText()), caAcc_type.getValue(), caAcc_desc.getText(), Integer.parseInt(caAccAmount.getText()))) {
                     System.out.println("Done");
                     mainAccountsTab.getSelectionModel().select(0);
                 }
@@ -115,7 +152,7 @@ public class AccountsPageContentController implements Initializable {
     }
 
     public void getData() {
-        String query = "select * from accounts where acc_id="+acc_id+";\n";
+        String query = "select * from accounts where acc_id=" + acc_id + ";\n";
         System.out.println(query);
         try {
             preparedStatement = connection.prepareStatement(query);
@@ -139,9 +176,62 @@ public class AccountsPageContentController implements Initializable {
             }
         }
     }
+    
+    public void loadAccInfo(){
+        AccInfoTable.setRoot(null);
+                data.clear();
+                data.removeAll(data);
+
+                JFXTreeTableColumn<AccInfo, String> AccNo = new JFXTreeTableColumn<>("Account Number");
+                AccNo.setPrefWidth(150);
+                AccNo.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccInfo, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccInfo, String> param) {
+                        return param.getValue().getValue().acc_no;
+                    }
+                });
+                JFXTreeTableColumn<AccInfo, String> AccType = new JFXTreeTableColumn<>("Account Type");
+                AccType.setPrefWidth(150);
+                AccType.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccInfo, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccInfo, String> param) {
+                        return param.getValue().getValue().acc_type;
+                    }
+                });
+                JFXTreeTableColumn<AccInfo, String> AccAmount = new JFXTreeTableColumn<>("Amount");
+                AccAmount.setPrefWidth(150);
+                AccAmount.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccInfo, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccInfo, String> param) {
+                        return param.getValue().getValue().acc_amount;
+                    }
+                });
+                JFXTreeTableColumn<AccInfo, String> AccDetails = new JFXTreeTableColumn<>("Account Details");
+                AccDetails.setPrefWidth(150);
+                AccDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccInfo, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccInfo, String> param) {
+                        return param.getValue().getValue().acc_details;
+                    }
+                });
+                JFXTreeTableColumn<AccInfo, String> AccDate = new JFXTreeTableColumn<>("Date Created");
+                AccDate.setPrefWidth(150);
+                AccDate.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccInfo, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccInfo, String> param) {
+                        return param.getValue().getValue().acc_date;
+                    }
+                });
+                getData();
+                final TreeItem<AccInfo> root = new RecursiveTreeItem<AccInfo>(data, RecursiveTreeObject::getChildren);
+                AccInfoTable.getColumns().setAll(AccNo, AccType, AccAmount, AccDetails, AccDate);
+                AccInfoTable.setRoot(root);
+                AccInfoTable.setShowRoot(false);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        acc_id = LoginModel.uid;
         mainAccountsTab.widthProperty().addListener((observable, oldValue, newValue) -> {
             mainAccountsTab.setTabMinWidth((mainAccountsTab.getWidth() - 10) / 2);
             mainAccountsTab.setTabMaxWidth((mainAccountsTab.getWidth() - 10) / 2);
@@ -151,51 +241,13 @@ public class AccountsPageContentController implements Initializable {
             caAcc_no.setText(String.valueOf(random.nextInt(10000) + 100));
         });
         caAcc_type.setItems(Macc_type);
-        JFXTreeTableColumn<AccInfo, String> AccNo = new JFXTreeTableColumn<>("Account Number");
-        AccNo.setPrefWidth(150);
-        AccNo.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccInfo, String>, ObservableValue<String>>() {
+        loadAccInfo();
+        AccountDetailsTab.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccInfo, String> param) {
-                return param.getValue().getValue().acc_no;
+            public void handle(Event event) {
+                loadAccInfo();
             }
         });
-        JFXTreeTableColumn<AccInfo, String> AccType = new JFXTreeTableColumn<>("Account Type");
-        AccType.setPrefWidth(150);
-        AccType.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccInfo, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccInfo, String> param) {
-                return param.getValue().getValue().acc_type;
-            }
-        });
-        JFXTreeTableColumn<AccInfo, String> AccAmount = new JFXTreeTableColumn<>("Amount");
-        AccAmount.setPrefWidth(150);
-        AccAmount.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccInfo, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccInfo, String> param) {
-                return param.getValue().getValue().acc_amount;
-            }
-        });
-        JFXTreeTableColumn<AccInfo, String> AccDetails = new JFXTreeTableColumn<>("Account Details");
-        AccDetails.setPrefWidth(150);
-        AccDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccInfo, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccInfo, String> param) {
-                return param.getValue().getValue().acc_details;
-            }
-        });
-        JFXTreeTableColumn<AccInfo, String> AccDate = new JFXTreeTableColumn<>("Date Created");
-        AccDate.setPrefWidth(150);
-        AccDate.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccInfo, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccInfo, String> param) {
-                return param.getValue().getValue().acc_date;
-            }
-        });
-        getData();
-        final TreeItem<AccInfo> root = new RecursiveTreeItem<AccInfo>(data, RecursiveTreeObject::getChildren);
-        AccInfoTable.getColumns().setAll(AccNo, AccType, AccAmount, AccDetails, AccDate);
-        AccInfoTable.setRoot(root);
-        AccInfoTable.setShowRoot(false);
     }
 
     class AccInfo extends RecursiveTreeObject<AccInfo> {

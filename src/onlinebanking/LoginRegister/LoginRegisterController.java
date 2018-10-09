@@ -10,6 +10,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -25,10 +28,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 import onlinebanking.database.DBConnected;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -121,7 +128,37 @@ public class LoginRegisterController implements Initializable {
 
     @FXML
     private JFXTextField Rmobile;
+    
+    @FXML
+    private JFXButton browse;
 
+    @FXML
+    private BorderPane imageBorder;
+
+    @FXML
+    private ImageView uImage;
+    
+    Stage stage;
+    FileChooser fileChoose;    
+    private Image image;
+    public static File file;
+    private FileInputStream imagefis;
+
+    
+    public void browseImage(ActionEvent event) {
+        fileChoose = new FileChooser();
+        fileChoose.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg")
+        );
+        file = fileChoose.showOpenDialog(this.stage);
+        if (file != null) {
+            String s = file.getAbsolutePath();
+            System.out.println(s);
+            image = new Image(file.toURI().toString());
+            uImage.setImage(image);
+        }
+    }
+    
     @FXML
     public void Login(ActionEvent event) throws SQLException, IOException {
         Stage stage;
@@ -160,7 +197,7 @@ public class LoginRegisterController implements Initializable {
         }
     }
 
-    public void Register(ActionEvent event) throws SQLException {
+    public void Register(ActionEvent event) throws SQLException, FileNotFoundException {
         if (Rusername.getText().isEmpty()) {
             RisUsername.setText("Username cannot be blank!");
         } else if (registerModel.ifUsernameExists(Rusername.getText())) {
@@ -192,6 +229,12 @@ public class LoginRegisterController implements Initializable {
             RisMobile.setText("Mobile No. cannot be blank!");
         } else {
             RisMobile.setText("");
+        }
+        if(uImage.getImage()==null){
+            System.out.println("No Image");
+            file=null;            
+        }else{
+            System.out.println("Image present");
         }
 
         if (Rusername.getText().isEmpty() || Rpassword.getText().isEmpty() || Rname.getText().isEmpty()

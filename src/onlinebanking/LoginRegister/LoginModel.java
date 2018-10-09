@@ -38,6 +38,7 @@ public class LoginModel {
             if (resultSet.next()) {
                 System.out.println(resultSet.getInt("uid"));
                 uid=resultSet.getInt("uid");
+                System.out.println("User Id:"+uid);
                 return true;
             } else {
                 return false;

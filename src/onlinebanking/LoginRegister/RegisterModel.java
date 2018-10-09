@@ -5,10 +5,16 @@
  */
 package onlinebanking.LoginRegister;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import onlinebanking.database.SqliteConnection;
 
 /**
@@ -28,6 +34,7 @@ public class RegisterModel {
             System.exit(1);
         }
     }
+    private FileInputStream imagefis;
 
     public boolean ifUsernameExists(String acc_no) throws SQLException {
         String query = "select * from users where username=?";
@@ -51,19 +58,29 @@ public class RegisterModel {
 
     }
 
-    public boolean isRegister(String name, String username, String password, String address, String email, int mobile) throws SQLException {
-        String query = "INSERT INTO `users` (name,username,password,address,email,mobile,uDate) VALUES ('" + name + "','" + username + "','" + password + "','" + address + "','" + email + "'," + mobile + ",datetime('now', 'localtime'));\n";
-        try {
-            preparedStatement = connection.prepareStatement(query);
+    public boolean isRegister(String name, String username, String password, String address, String email, int mobile) throws SQLException, FileNotFoundException {
+        
+            if(LoginRegisterController.file==null)
+                imagefis =null;
+            else
+                imagefis = new FileInputStream(LoginRegisterController.file);
+            String query = "INSERT INTO `users` (name,username,password,address,email,mobile,uDate,uImage) VALUES ('" + name + "','" + username + "','" + password + "','" + address + "','" + email + "'," + mobile + ",datetime('now', 'localtime'),?);\n";
+            try {
+                preparedStatement = connection.prepareStatement(query);
+                if(imagefis==null)
+                    preparedStatement.setNull(1, java.sql.Types.BLOB);
+                else 
+                    preparedStatement.setBinaryStream(1, (InputStream) imagefis, (int) LoginRegisterController.file.length());
+                System.out.println(query);
+                preparedStatement.execute();
+                
+                return true;
 
-            System.out.println(query);
-            System.out.println("Hey" + preparedStatement.execute());
-            return true;
-
-        } catch (SQLException e) {
-            System.out.println("Error!");
-            return false;
-        }
+            } catch (SQLException e) {
+                System.out.println("Error!");
+                return false;
+            }
+        
     }
 
 }
