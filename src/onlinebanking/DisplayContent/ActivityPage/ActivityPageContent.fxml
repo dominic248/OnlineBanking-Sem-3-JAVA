@@ -10,7 +10,7 @@
     <children>
         <JFXTabPane fx:id="mainActivityTab" prefHeight="590.0" prefWidth="1200.0">
          <tabs>
-            <Tab fx:id="TransactionsTab" style="-fx-background-color: #6200EE;" text="Transactions">
+            <Tab id="mainHeader" fx:id="TransactionsTab" style="-fx-background-color: #6200EE;" text="Transactions">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -22,9 +22,16 @@
                      </children></AnchorPane>
               </content>
             </Tab>
-            <Tab fx:id="ActivityTab" style="-fx-background-color: #6200EE;" text="Activity">
+            <Tab id="mainHeader" fx:id="ActivityTab" style="-fx-background-color: #6200EE;" text="Activity">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane prefHeight="560.0" prefWidth="1200.0">
+                           <children>
+                              <JFXTreeTableView fx:id="ActivityTable" prefHeight="560.0" prefWidth="1200.0" />
+                           </children>
+                        </FlowPane>
+                     </children></AnchorPane>
               </content>
             </Tab>
          </tabs>

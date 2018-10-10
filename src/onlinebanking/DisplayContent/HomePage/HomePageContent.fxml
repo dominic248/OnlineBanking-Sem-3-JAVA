@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinebanking.DisplayContent.HomePage.HomePageContentController">
-    <children>
-        <Label fx:id="welcome" layoutX="575.0" layoutY="287.0" text="Welcome" />
-        <JFXButton fx:id="change" layoutX="572.0" layoutY="334.0" onAction="#onChange" text="Change" />
-    </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinebanking.DisplayContent.HomePage.HomePageContentController">
+   <children>
+      <AnchorPane layoutX="35.0" layoutY="35.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+      <AnchorPane layoutX="423.0" layoutY="35.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+      <AnchorPane layoutX="811.0" layoutY="35.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+      <AnchorPane layoutX="35.0" layoutY="312.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+      <AnchorPane layoutX="423.0" layoutY="312.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+      <AnchorPane layoutX="811.0" layoutY="312.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+   </children>
 </AnchorPane>

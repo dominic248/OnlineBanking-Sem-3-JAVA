@@ -3,7 +3,6 @@ package onlinebanking.DisplayContent;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
-import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,18 +19,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import onlinebanking.LoginRegister.LoginModel;
 import onlinebanking.OnlineBanking;
 import onlinebanking.database.SqliteConnection;
@@ -40,6 +33,7 @@ import onlinebanking.database.SqliteConnection;
 public class DisplayController implements Initializable {
 
     public static int uid;
+    LoginModel l=new LoginModel();
     Connection connection;
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet = null;
@@ -125,6 +119,7 @@ public class DisplayController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        mainAnchorPane.getStylesheets().addAll(getClass().getResource("/onlinebanking/style.css").toExternalForm());
         uid = LoginModel.uid;
         try {
             AnchorPane newLoadedPane;
@@ -186,14 +181,7 @@ public class DisplayController implements Initializable {
                                     Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                                 break;
-//                                case "drawerBalance": try {
-//                                    mainAnchorPane.getChildren().clear();
-//                                    mainAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/AccountDetailsPageContent.fxml")));
-//                                    closeDrawer();
-//                                } catch (IOException ex) {
-//                                    Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
-//                                }
-//                                break;
+
 
                             case "drawerActivity":
                                 try {
@@ -209,6 +197,7 @@ public class DisplayController implements Initializable {
                                 try {
                                     mainAnchorPane.getChildren().clear();
                                     mainAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/AboutPage/AboutPageContent.fxml")));
+                                    
                                     mainHeading.setText("About");
                                     closeDrawer();
                                 } catch (IOException ex) {
@@ -217,6 +206,7 @@ public class DisplayController implements Initializable {
                                 break;
                             case "drawerLogout":
                                 try {
+                                    
                                     Stage stage;
                                     Parent loader;
 
@@ -225,6 +215,9 @@ public class DisplayController implements Initializable {
                                     stage = OnlineBanking.stage;
                                     stage.getScene().setRoot(loader);
                                     stage.show();
+                                    l.setLogoutTime();
+                                    LoginModel.uid=0;
+                                    
 
                                 } catch (IOException ex) {
                                     Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);

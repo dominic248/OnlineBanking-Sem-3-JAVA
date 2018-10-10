@@ -43,6 +43,7 @@ public class ActivityPageContentController implements Initializable {
 
     LoginModel l = new LoginModel();
     static ObservableList<Transactions> data = FXCollections.observableArrayList();
+    static ObservableList<Activity> adata= FXCollections.observableArrayList();
     Connection connection;
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet = null;
@@ -63,13 +64,16 @@ public class ActivityPageContentController implements Initializable {
     private JFXTabPane mainActivityTab;
 
     @FXML
-    private Tab ActivityTab, TransactionsTab;;
+    private Tab ActivityTab, TransactionsTab;
 
     @FXML
     private FlowPane TransFlow;
 
     @FXML
     private JFXTreeTableView<Transactions> TransTable;
+    
+    @FXML
+    private JFXTreeTableView<Activity> ActivityTable;
 
     public void getData() {
         String toAcc;
@@ -94,6 +98,29 @@ public class ActivityPageContentController implements Initializable {
                         Integer.toString(resultSet.getInt("Amount")),
                         resultSet.getString("Date"),
                         resultSet.getString("Op")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+                resultSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ActivityPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public void getActivityData() {
+        String query = "select aType,aDate from activity where aid="+acc_id+";";
+        System.out.println(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                adata.add(new Activity(resultSet.getString("aType"),
+                       resultSet.getString("aDate")
                 ));
             }
         } catch (SQLException e) {
@@ -178,6 +205,32 @@ public class ActivityPageContentController implements Initializable {
                 loadTransactions();
             }
         });
+        
+        ActivityTable.setRoot(null);
+                adata.clear();
+                adata.removeAll(data);
+                JFXTreeTableColumn<Activity, String> AType = new JFXTreeTableColumn<>("Activity Type");
+                AType.setPrefWidth(150);
+                AType.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Activity, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Activity, String> param) {
+                        return param.getValue().getValue().type;
+                    }
+                });
+                JFXTreeTableColumn<Activity, String> ADate = new JFXTreeTableColumn<>("Date");
+                ADate.setPrefWidth(150);
+                ADate.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Activity, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Activity, String> param) {
+                        return param.getValue().getValue().date;
+                    }
+                });
+                
+                getActivityData();
+                final TreeItem<Activity> root = new RecursiveTreeItem<Activity>(adata, RecursiveTreeObject::getChildren);
+                ActivityTable.getColumns().setAll(AType, ADate);
+                ActivityTable.setRoot(root);
+                ActivityTable.setShowRoot(false);
 
     }
 
@@ -198,4 +251,12 @@ public class ActivityPageContentController implements Initializable {
         }
     }
 
+    class Activity extends RecursiveTreeObject<Activity> {
+        StringProperty type;
+        StringProperty date;
+        public Activity(String type, String date) {
+            this.type = new SimpleStringProperty(type);
+            this.date = new SimpleStringProperty(date);
+        }
+    }
 }

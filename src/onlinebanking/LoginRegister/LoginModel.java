@@ -52,7 +52,20 @@ public class LoginModel {
     }
     
     public void setLoginTime(){
-        String query = "INSERT INTO `activity` (aid,aDate) VALUES ("+uid+",datetime('now', 'localtime'));\n";
+        String query = "INSERT INTO `activity` (aid,aDate,aType) VALUES ("+uid+",datetime('now', 'localtime'),'Login');\n";
+        System.out.println(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            System.out.println("Error in DateTime");
+        } finally {
+            System.out.println("Executed!");
+        }
+    }
+    
+    public void setLogoutTime(){
+        String query = "INSERT INTO `activity` (aid,aDate,aType) VALUES ("+uid+",datetime('now', 'localtime'),'Logout');\n";
         System.out.println(query);
         try {
             preparedStatement = connection.prepareStatement(query);

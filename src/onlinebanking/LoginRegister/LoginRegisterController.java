@@ -182,8 +182,9 @@ public class LoginRegisterController implements Initializable {
                 if (loginModel.isLogin(Lusername.getText(), Lpassword.getText())) {
                     Lispassword.setText("Username and password is correct");
                     stage = (Stage) Llogin_btn.getScene().getWindow();
-                    loader = FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/DisplayPage.fxml"));
+                    loader = FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/DisplayPage.fxml"));        
                     Scene scene = new Scene(loader);
+                    scene.getStylesheets().addAll(getClass().getResource("/onlinebanking/style.css").toExternalForm());
                     stage.setScene(scene);
                     stage.show();
                     loginModel.setLoginTime();
@@ -244,6 +245,15 @@ public class LoginRegisterController implements Initializable {
         } else {
             if (registerModel.isRegister(Rname.getText(),Rusername.getText(), Rpassword.getText(), Raddress.getText(), Remail.getText(), Integer.parseInt(Rmobile.getText()))) {
                 System.out.println("Done");
+                Rusername.setText("");
+                Rpassword.setText("");
+                Rname.setText("");
+                Raddress.setText("");
+                Remail.setText("");
+                Rmobile.setText("");
+                uImage.setImage(null);
+                RisUsername.setText("");
+                RisEmail.setText("");
                 LoginRegisterTab.getSelectionModel().select(0);
             }
         }

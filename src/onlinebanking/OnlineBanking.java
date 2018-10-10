@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package onlinebanking;
+
 import onlinebanking.database.SqliteConnection;
 import java.io.IOException;
 import java.sql.Connection;
@@ -14,12 +15,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle; //StageStyle.DECORATED
-
+import onlinebanking.LoginRegister.LoginModel;
 
 public class OnlineBanking extends Application {
 
     public static Stage stage;
     Connection connection;
+    LoginModel l = new LoginModel();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -27,12 +29,20 @@ public class OnlineBanking extends Application {
         mainWindow();
     }
 
+    public void stop() {
+        if (LoginModel.uid != 0) {
+            l.setLogoutTime();
+            LoginModel.uid = 0;
+        }
+        System.out.println("Stop");
+    }
+
     public void mainWindow() throws IOException {
         connection = SqliteConnection.createdb();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/onlinebanking/LoginRegister/LoginRegisterPage.fxml"));
         StackPane pane = loader.load();
         Scene scene = new Scene(pane);
-        scene.getStylesheets().addAll(getClass().getResource("/onlinebanking/LoginRegister/style.css").toExternalForm());
+        scene.getStylesheets().addAll(getClass().getResource("/onlinebanking/style.css").toExternalForm());
 
         stage.setTitle("Online Banking");
         stage.setScene(scene);

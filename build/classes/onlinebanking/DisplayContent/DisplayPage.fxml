@@ -13,10 +13,10 @@
         <AnchorPane fx:id="rootAnchor" prefHeight="200.0" prefWidth="200.0">
             <children>
                 <JFXDrawer fx:id="mainDrawer" defaultDrawerSize="250.0" prefHeight="650.0" prefWidth="0.0" />
-                <Pane fx:id="mainHeader" prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: #6200ee;">
+                <Pane id="mainHeader" fx:id="mainHeader" prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: #6200ee;">
                     <children>
-                        <JFXHamburger id="jfx-hamburger" fx:id="mainHamburg" layoutX="22.0" layoutY="24.0" prefHeight="13.0" prefWidth="23.0" styleClass="jfx-hamburger" />
-                  <Label fx:id="mainHeading" layoutX="62.0" layoutY="13.0" prefHeight="35.0" prefWidth="479.0" text="Home" textFill="WHITE">
+                        <JFXHamburger id="jfx-hamburger" fx:id="mainHamburg" layoutX="22.0" layoutY="24.0" prefHeight="13.0" prefWidth="23.0" styleClass="jfx-hamburger StackPane" />
+                  <Label fx:id="mainHeading" layoutX="61.0" layoutY="13.0" prefHeight="35.0" prefWidth="479.0" text="Home" textFill="WHITE">
                      <font>
                         <Font name="Times New Roman Bold" size="26.0" />
                      </font>
