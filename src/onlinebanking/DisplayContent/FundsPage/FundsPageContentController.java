@@ -42,6 +42,8 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.util.Callback;
 import onlinebanking.DisplayContent.ActivityPage.ActivityPageContentController;
+import onlinebanking.DisplayContent.DisplayController;
+import onlinebanking.DisplayContent.HomePage.HomePageContentController;
 
 import onlinebanking.LoginRegister.LoginModel;
 import onlinebanking.database.SqliteConnection;
@@ -51,6 +53,7 @@ import onlinebanking.database.SqliteConnection;
  * @author dms
  */
 public class FundsPageContentController implements Initializable {
+
 
     public static String[] splited = new String[4];
 
@@ -233,6 +236,7 @@ public class FundsPageContentController implements Initializable {
         }
     }
 
+    int index;
     @FXML
     private Tab WithdrawTab;
 
@@ -441,8 +445,19 @@ public class FundsPageContentController implements Initializable {
         }
     }
 
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        index=HomePageContentController.index;
+        if(index==1 ){
+            mainFundsTab.getSelectionModel().select(0);
+        }else if(index==2){
+            mainFundsTab.getSelectionModel().select(1);
+        }else if(index==3){
+            mainFundsTab.getSelectionModel().select(2);
+        }else if(index==4){
+            mainFundsTab.getSelectionModel().select(3);
+        }
         acc_id = LoginModel.uid;
         mainFundsTab.widthProperty().addListener((observable, oldValue, newValue)
                 -> {

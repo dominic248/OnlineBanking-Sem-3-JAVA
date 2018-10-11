@@ -42,3 +42,21 @@
 #mainHeader{
     -fx-background-color: #6200ee;
 }
+#headTitle{
+    -fx-text-fill: #6200ee;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Roboto';
+    -fx-pref-width: 353;
+    -fx-pref-height: 25;
+    -fx-translate-x: 0;
+}
+#headInfo{
+    -fx-text-fill: GREY;
+    -fx-font-size: 12px;
+    -fx-font-weight: regular;
+    -fx-font-family: 'Roboto';
+    -fx-pref-width: 353;
+    -fx-pref-height: 20;
+    -fx-translate-x: 0;
+}

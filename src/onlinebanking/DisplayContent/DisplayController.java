@@ -26,12 +26,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import onlinebanking.DisplayContent.HomePage.HomePageContentController;
 import onlinebanking.LoginRegister.LoginModel;
 import onlinebanking.OnlineBanking;
 import onlinebanking.database.SqliteConnection;
 
 public class DisplayController implements Initializable {
 
+    
     public static int uid;
     LoginModel l=new LoginModel();
     Connection connection;
@@ -91,7 +93,7 @@ public class DisplayController implements Initializable {
     private JFXDrawer mainDrawer;
 
     @FXML
-    private Pane mainHeader;
+    private  Pane mainHeader;
 
     @FXML
     private JFXHamburger mainHamburg;
@@ -117,8 +119,15 @@ public class DisplayController implements Initializable {
         }
     }
 
+   
+       
+
+    
+
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
         mainAnchorPane.getStylesheets().addAll(getClass().getResource("/onlinebanking/style.css").toExternalForm());
         uid = LoginModel.uid;
         try {

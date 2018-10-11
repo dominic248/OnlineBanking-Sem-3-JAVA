@@ -32,6 +32,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.FlowPane;
 import javafx.util.Callback;
+import onlinebanking.DisplayContent.HomePage.HomePageContentController;
 import onlinebanking.LoginRegister.LoginModel;
 import onlinebanking.database.SqliteConnection;
 
@@ -57,6 +58,7 @@ public class ActivityPageContentController implements Initializable {
         }
     }
 
+    int index;
     @FXML
     private Tab BalanceTab;
 
@@ -190,7 +192,12 @@ public class ActivityPageContentController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        index=HomePageContentController.index;
+        if(index==5 ){
+            mainActivityTab.getSelectionModel().select(0);
+        }else if(index==6){
+            mainActivityTab.getSelectionModel().select(1);
+        }
         acc_id = LoginModel.uid;
         mainActivityTab.widthProperty().addListener((observable, oldValue, newValue)
                 -> {

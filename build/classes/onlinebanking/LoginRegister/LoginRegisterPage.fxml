@@ -37,7 +37,6 @@
                                                 <Font size="14.0" />
                                             </font>
                                         </JFXButton>
-                                        <Label fx:id="LisConnected" layoutX="434.0" layoutY="402.0" prefHeight="20.0" prefWidth="95.0" text="Status" textFill="RED" />
                               <Label id="warning" fx:id="Lisusername" layoutX="380.0" layoutY="205.0" prefHeight="17.0" prefWidth="200.0" textFill="RED" />
                               <Label id="warning" fx:id="Lispassword" layoutX="380.0" layoutY="261.0" prefHeight="17.0" prefWidth="200.0" textFill="RED" />
                                     </children>
@@ -51,16 +50,15 @@
                 </Tab>
                 <Tab id="mainHeader" fx:id="RegisterTab" style="-fx-background-color: #6200ee;" text="Register">
                     <content>
-                        <AnchorPane id="RrootPane_css" fx:id="RrootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1200.0">
+                        <AnchorPane id="LrootPane_css" fx:id="RrootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1200.0">
                             <children>
-                                <Pane layoutX="45.0" layoutY="56.0" prefHeight="533.0" prefWidth="1115.0" style="-fx-background-color: #d2d2d2;">
+                                <Pane layoutX="45.0" layoutY="56.0" prefHeight="533.0" prefWidth="1115.0" style="-fx-background-color: #ffffff; -fx-background-radius: 40px;">
                                     <children>
                                         <JFXTextField id="input" fx:id="Rusername" labelFloat="true" layoutX="484.0" layoutY="109.0" prefHeight="25.0" prefWidth="166.0" promptText="Username" />
                                         <JFXPasswordField id="input" fx:id="Rpassword" labelFloat="true" layoutX="484.0" layoutY="176.0" prefHeight="25.0" prefWidth="166.0" promptText="Password" />
                                         <JFXTextField id="input" fx:id="Raddress" labelFloat="true" layoutX="484.0" layoutY="242.0" prefHeight="25.0" prefWidth="166.0" promptText="Address" />
                                         <JFXTextField id="input" fx:id="Remail" labelFloat="true" layoutX="484.0" layoutY="308.0" prefHeight="25.0" prefWidth="166.0" promptText="E-mail ID" />
                                         <JFXTextField id="input" fx:id="Rmobile" labelFloat="true" layoutX="484.0" layoutY="374.0" prefHeight="25.0" prefWidth="166.0" promptText="Mobile No." />
-                                        <Label fx:id="RisConnected" layoutX="551.0" layoutY="511.0" prefHeight="17.0" prefWidth="67.0" text="Status" />
                                         <JFXButton id="buttons" fx:id="Rregister_btn" buttonType="RAISED" layoutX="522.0" layoutY="448.0" onAction="#Register" prefHeight="41.0" prefWidth="125.0" style="-fx-background-color: #00a895; -fx-background-radius: 50; -fx-border-radius: 50;" text="Register" textFill="WHITE">
                                  <font>
                                     <Font name="Georgia" size="14.0" />
@@ -74,7 +72,7 @@
                               <Label id="warning" fx:id="RisName" layoutX="484.0" layoutY="72.0" prefHeight="20.0" prefWidth="174.0" textFill="RED" />
                               <BorderPane id="image_css" fx:id="imageBorder" layoutX="178.0" layoutY="40.0" prefHeight="220.0" prefWidth="236.0">
                                  <center>
-                                    <ImageView fx:id="uImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                    <ImageView fx:id="uImage" fitHeight="220.0" fitWidth="238.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                        <effect>
                                           <DropShadow />
                                        </effect></ImageView>
@@ -86,6 +84,9 @@
                                  </font>
                               </JFXButton>
                                     </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
                                 </Pane>
                             </children>
                         </AnchorPane>

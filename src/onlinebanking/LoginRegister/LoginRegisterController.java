@@ -51,8 +51,7 @@ public class LoginRegisterController implements Initializable {
     DBConnected dbConnected = new DBConnected();
     RegisterModel registerModel = new RegisterModel();
 
-    @FXML
-    private Label LisConnected;
+   
 
     @FXML
     private AnchorPane RrootPane;
@@ -110,9 +109,6 @@ public class LoginRegisterController implements Initializable {
 
     @FXML
     private AnchorPane LrootPane;
-
-    @FXML
-    private Label RisConnected;
 
     @FXML
     private Label RisName;
@@ -274,11 +270,7 @@ public class LoginRegisterController implements Initializable {
             }
         });
 
-        if (dbConnected.isDbConnected()) {
-            LisConnected.setText("Connected");
-        } else {
-            LisConnected.setText("Disconnected");
-        }
+
 
         Rusername.textProperty().addListener((observable, oldValue, newValue) -> {
 
