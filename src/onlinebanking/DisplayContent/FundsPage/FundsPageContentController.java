@@ -54,7 +54,6 @@ import onlinebanking.database.SqliteConnection;
  */
 public class FundsPageContentController implements Initializable {
 
-
     public static String[] splited = new String[4];
 
     Connection connection;
@@ -311,16 +310,19 @@ public class FundsPageContentController implements Initializable {
             splited = Daccnotype.getValue().split("\\s+");
             System.out.println(splited[0]);
             isDaccnotype.setText("");
+
         } else {
             isDaccnotype.setText("Select Account!");
             System.out.println("Error!");
         }
         if (Damount.getText().isEmpty()) {
             isDamount.setText("Please enter the amount!");
+        } else if (Integer.valueOf(Damount.getText()) < 0) {
+            isDaccnotype.setText("Invalid Balance!");
         } else {
             isDamount.setText("");
         }
-        if ((Damount.getText().isEmpty() || Daccnotype.getValue() == null)) {
+        if ((Damount.getText().isEmpty() || Integer.valueOf(Damount.getText()) < 0 || Daccnotype.getValue() == null)) {
             System.out.println("?");
         } else {
             try {
@@ -353,6 +355,8 @@ public class FundsPageContentController implements Initializable {
         }
         if (Wamount.getText().isEmpty()) {
             isWamount.setText("Please enter the amount!");
+        } else if (Integer.valueOf(Wamount.getText()) < 0) {
+            isWaccnotype.setText("Invalid Balance!");
         } else {
             isWamount.setText("");
         }
@@ -395,6 +399,8 @@ public class FundsPageContentController implements Initializable {
         }
         if (transferAmount.getText().isEmpty()) {
             isTransferAmount.setText("Please enter the amount!");
+        } else if (Integer.valueOf(transferAmount.getText()) < 0) {
+            isTransferAmount.setText("Invalid Balance!");
         } else {
             isTransferAmount.setText("");
         }
@@ -445,17 +451,16 @@ public class FundsPageContentController implements Initializable {
         }
     }
 
-    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        index=HomePageContentController.index;
-        if(index==1 ){
+        index = HomePageContentController.index;
+        if (index == 1) {
             mainFundsTab.getSelectionModel().select(0);
-        }else if(index==2){
+        } else if (index == 2) {
             mainFundsTab.getSelectionModel().select(1);
-        }else if(index==3){
+        } else if (index == 3) {
             mainFundsTab.getSelectionModel().select(2);
-        }else if(index==4){
+        } else if (index == 4) {
             mainFundsTab.getSelectionModel().select(3);
         }
         acc_id = LoginModel.uid;
@@ -518,6 +523,26 @@ public class FundsPageContentController implements Initializable {
                 BalanceTable.getColumns().setAll(AccNo, AccType, AccBal);
                 BalanceTable.setRoot(root);
                 BalanceTable.setShowRoot(false);
+            }
+        });
+        transferAmount.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]*")) {
+                transferAmount.setText(oldValue);
+            }
+        });
+        Wamount.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]*")) {
+                Wamount.setText(oldValue);
+            }
+        });
+        Damount.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]*")) {
+                Damount.setText(oldValue);
+            }
+        });
+        transferAcc.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]*")) {
+                Damount.setText(oldValue);
             }
         });
 

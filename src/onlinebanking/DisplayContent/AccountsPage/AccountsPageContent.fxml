@@ -20,11 +20,12 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <FlowPane prefHeight="554.0" prefWidth="1200.0">
+                        <FlowPane prefHeight="500.0" prefWidth="1200.0">
                            <children>
-                              <JFXTreeTableView fx:id="AccInfoTable" prefHeight="560.0" prefWidth="1200.0" style="-fx-background-color: #d2d2d2;" />
+                              <JFXTreeTableView fx:id="AccInfoTable" prefHeight="500.0" prefWidth="1200.0" style="-fx-background-color: #d2d2d2;" />
                            </children>
                         </FlowPane>
+                        <JFXButton id="buttons" layoutX="538.0" layoutY="514.0" onAction="#delAccType" prefWidth="125.0" text="Delete Account" />
                      </children></AnchorPane>
               </content>
             </Tab>

@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,14 +33,19 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import onlinebanking.DisplayContent.ActivityPage.ActivityPageContentController;
+import onlinebanking.DisplayContent.HomePage.HomePageContentController;
 import onlinebanking.LoginRegister.LoginModel;
+import onlinebanking.OnlineBanking;
 import onlinebanking.database.SqliteConnection;
 
 /**
@@ -82,6 +88,30 @@ public class AccountsPageContentController implements Initializable {
         } finally {
             preparedStatement.close();
             resultSet.close();
+        }
+    }
+    
+    public void delAccType(){
+        TreeItem<AccInfo> selectedItem = AccInfoTable.getSelectionModel().getSelectedItem();
+            if (selectedItem == null) {
+                return;
+            }
+            TreeItem<AccInfo> acc_no = AccInfoTable.getSelectionModel().getSelectedItem();
+            String straccno = acc_no.getValue().getaccId().toString();
+            straccno = straccno.substring(23, straccno.length() - 1);
+            int intaccno=Integer.valueOf(straccno);
+            String query = "delete from accounts where acc_id=" + intaccno + ";";
+        
+        System.out.println(query);
+   
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.execute();
+            
+            System.out.println("Deleted");
+            loadAccInfo();
+        } catch (SQLException e) {
+            System.out.println("Failed");
         }
     }
 
@@ -159,6 +189,7 @@ public class AccountsPageContentController implements Initializable {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 data.add(new AccInfo(Integer.toString(resultSet.getInt("acc_no")),
+                        Integer.toString(resultSet.getInt("acc_id")),
                         resultSet.getString("acc_type"),
                         Integer.toString(resultSet.getInt("acc_amount")),
                         resultSet.getString("acc_details"),
@@ -253,19 +284,24 @@ public class AccountsPageContentController implements Initializable {
     class AccInfo extends RecursiveTreeObject<AccInfo> {
 
         StringProperty acc_no;
+        StringProperty acc_id;
         StringProperty acc_type;
         StringProperty acc_amount;
         StringProperty acc_details;
         StringProperty acc_date;
 
-        public AccInfo(String acc_no, String acc_type, String acc_amount, String acc_details, String acc_date) {
+        public AccInfo(String acc_no,String acc_id, String acc_type, String acc_amount, String acc_details, String acc_date) {
             this.acc_no = new SimpleStringProperty(acc_no);
+            this.acc_id = new SimpleStringProperty(acc_id);
             this.acc_type = new SimpleStringProperty(acc_type);
             this.acc_amount = new SimpleStringProperty(acc_amount);
             this.acc_details = new SimpleStringProperty(acc_details);
             this.acc_date = new SimpleStringProperty(acc_date);
 
         }
+        public StringProperty getaccId() {
+        return acc_id;
+    }
     }
 
 }

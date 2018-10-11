@@ -92,6 +92,6 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="555.0" layoutY="568.0" prefHeight="17.0" prefWidth="89.0" text="Delete Account" textFill="#0018ff" />
+      <Label fx:id="delUserAcc" alignment="CENTER" contentDisplay="CENTER" layoutX="541.0" layoutY="568.0" onMouseClicked="#delUserAcc" prefHeight="17.0" prefWidth="118.0" text="Delete User Account" textFill="#0018ff" />
    </children>
 </AnchorPane>
