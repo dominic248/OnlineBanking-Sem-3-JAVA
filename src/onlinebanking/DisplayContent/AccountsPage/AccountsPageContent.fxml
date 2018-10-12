@@ -10,44 +10,55 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinebanking.DisplayContent.AccountsPage.AccountsPageContentController">
-    <children>
-        <JFXTabPane fx:id="mainAccountsTab" prefHeight="590.0" prefWidth="1200.0">
-            <tabs>
-            <Tab id="mainHeader" fx:id="AccountDetailsTab" style="-fx-background-color: #6200ee;" text="Account Details">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <FlowPane prefHeight="500.0" prefWidth="1200.0">
-                           <children>
-                              <JFXTreeTableView fx:id="AccInfoTable" prefHeight="500.0" prefWidth="1200.0" style="-fx-background-color: #d2d2d2;" />
-                           </children>
-                        </FlowPane>
-                        <JFXButton id="buttons" layoutX="538.0" layoutY="514.0" onAction="#delAccType" prefWidth="125.0" text="Delete Account" />
-                     </children></AnchorPane>
-              </content>
-            </Tab>
-            <Tab id="mainHeader" fx:id="CreateAccountTab" style="-fx-background-color: #6200ee;" text="Create Account">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <JFXTextArea id="input" fx:id="caAcc_desc" labelFloat="true" layoutX="502.0" layoutY="294.0" prefHeight="90.0" prefWidth="250.0" promptText="Account Description" />
-                        <JFXComboBox id="input" fx:id="caAcc_type" focusColor="#5d1beb" layoutX="501.0" layoutY="157.0" prefHeight="29.0" prefWidth="175.0" promptText="Account Type" />
-                        <JFXTextField id="input" fx:id="caAcc_no" focusColor="#d30699" labelFloat="true" layoutX="501.0" layoutY="96.0" prefHeight="25.0" prefWidth="200.0" promptText="Account Number" />
-                        <JFXButton id="login_btn_c" fx:id="Llogin_btn" buttonType="RAISED" layoutX="538.0" layoutY="428.0" onAction="#CreateAccount" prefHeight="34.0" prefWidth="125.0" style="-fx-background-color: #00a895; -fx-background-radius: 50;" text="Create Account" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </JFXButton>
-                        <Label fx:id="iscaAcc_type" layoutX="502.0" layoutY="186.0" prefHeight="21.0" prefWidth="174.0" textFill="RED" />
-                        <JFXTextField id="input" fx:id="caAccAmount" labelFloat="true" layoutX="502.0" layoutY="231.0" promptText="Enter Starting Amount" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            </tabs>
-        </JFXTabPane>
-    </children>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinebanking.DisplayContent.AccountsPage.AccountsPageContentController">
+   <children>
+      <StackPane fx:id="stackPane">
+         <children>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1200.0">
+                <children>
+                    <JFXTabPane fx:id="mainAccountsTab" prefHeight="590.0" prefWidth="1200.0">
+                        <tabs>
+                        <Tab id="mainHeader" fx:id="AccountDetailsTab" style="-fx-background-color: #6200ee;" text="Account Details">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <FlowPane prefHeight="500.0" prefWidth="1200.0">
+                                       <children>
+                                          <JFXTreeTableView fx:id="AccInfoTable" prefHeight="500.0" prefWidth="1200.0" style="-fx-background-color: #d2d2d2;" />
+                                       </children>
+                                    </FlowPane>
+                                    <JFXButton id="buttons" layoutX="538.0" layoutY="514.0" onAction="#delAccType" prefWidth="125.0" text="Delete Account" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab id="mainHeader" fx:id="CreateAccountTab" style="-fx-background-color: #6200ee;" text="Create Account">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <JFXTextArea id="input" fx:id="caAcc_desc" labelFloat="true" layoutX="502.0" layoutY="294.0" prefHeight="90.0" prefWidth="250.0" promptText="Account Description" />
+                                    <JFXComboBox id="input" fx:id="caAcc_type" focusColor="#5d1beb" layoutX="501.0" layoutY="157.0" prefHeight="29.0" prefWidth="175.0" promptText="Account Type" />
+                                    <JFXTextField id="input" fx:id="caAcc_no" focusColor="#d30699" labelFloat="true" layoutX="501.0" layoutY="96.0" prefHeight="25.0" prefWidth="200.0" promptText="Account Number" />
+                                    <JFXButton id="login_btn_c" fx:id="Llogin_btn" buttonType="RAISED" layoutX="538.0" layoutY="428.0" onAction="#CreateAccount" prefHeight="34.0" prefWidth="125.0" style="-fx-background-color: #00a895; -fx-background-radius: 50;" text="Create Account" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <Label fx:id="iscaAcc_type" layoutX="502.0" layoutY="186.0" prefHeight="21.0" prefWidth="174.0" textFill="RED" />
+                                    <JFXTextField id="input" fx:id="caAccAmount" labelFloat="true" layoutX="502.0" layoutY="231.0" promptText="Enter Starting Amount" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        </tabs>
+                    </JFXTabPane>
+                </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </children>
 </AnchorPane>

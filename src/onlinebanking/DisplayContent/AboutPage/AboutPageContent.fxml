@@ -2,14 +2,22 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinebanking.DisplayContent.AboutPage.AboutPageContentController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="586.0" layoutY="243.0" prefHeight="105.0" prefWidth="527.0" text="This application is about banking system. We have created this application to create an account, withdraw and deposit cash and transfer amount to other accounts. We created this using JavaFX and database. " textAlignment="CENTER" wrapText="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="337.0" layoutY="251.0" prefHeight="105.0" prefWidth="527.0" text="This application is about banking system. We have created this application to create an account, withdraw and deposit cash and transfer amount to other accounts. We created this using JavaFX and database. We soley three of them did the project work. Shaun did the UI part, Domnic did the Coding part and Akshay did the Database part. Thank you monika ma'am for helping and supporting us. " textAlignment="CENTER" textFill="#941db5" wrapText="true">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </Label>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="484.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="150.0" fitWidth="164.0" layoutX="525.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@sfit.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

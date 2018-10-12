@@ -58,7 +58,7 @@ public class RegisterModel {
 
     }
 
-    public boolean isRegister(String name, String username, String password, String address, String email, int mobile) throws SQLException, FileNotFoundException {
+    public boolean isRegister(String name, String username, String password, String address, String email, String mobile) throws SQLException, FileNotFoundException {
         
             if(LoginRegisterController.file==null)
                 imagefis =null;

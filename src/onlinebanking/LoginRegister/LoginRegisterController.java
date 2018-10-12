@@ -239,7 +239,7 @@ public class LoginRegisterController implements Initializable {
                 || Rmobile.getText().isEmpty() || registerModel.ifUsernameExists(Rusername.getText())) {
             return;
         } else {
-            if (registerModel.isRegister(Rname.getText(),Rusername.getText(), Rpassword.getText(), Raddress.getText(), Remail.getText(), Integer.parseInt(Rmobile.getText()))) {
+            if (registerModel.isRegister(Rname.getText(),Rusername.getText(), Rpassword.getText(), Raddress.getText(), Remail.getText(), Rmobile.getText())) {
                 System.out.println("Done");
                 Rusername.setText("");
                 Rpassword.setText("");

@@ -7,6 +7,8 @@ package onlinebanking.DisplayContent.FundsPage;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
@@ -29,6 +31,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -40,6 +43,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import onlinebanking.DisplayContent.ActivityPage.ActivityPageContentController;
 import onlinebanking.DisplayContent.DisplayController;
@@ -300,9 +305,80 @@ public class FundsPageContentController implements Initializable {
     private JFXListView<JFXButton> listBalance;
 
     @FXML
+    private StackPane stackPane;
+
+    @FXML
     private JFXTreeTableView<Balance> BalanceTable;
 
     static ObservableList<Balance> data = FXCollections.observableArrayList();
+
+    public int getBalance(int acc_no) {
+        String query = "select * from accounts where acc_no=" + acc_no + ";\n";
+        System.out.println(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("acc_amount");
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            return 0;
+
+        }
+    }
+
+    public void PopUp(String task,String status) {
+        String Heading,Body;
+        if(("Deposit".equals(task)) && ("Success".equals(status))){
+            Heading = "Successful!";
+            Body = "Amount Deposited!";
+        }else if("Deposit".equals(task) && "Failed".equals(status)){
+            Heading = "Failed!";
+            Body = "Amount not Deposited!";
+        }else if("Deposit".equals(task) && "Invalid".equals(status)){
+            Heading = "Failed!";
+            Body = "Invalid Amount!";
+        }else if("Withdraw".equals(task) && "Success".equals(status)){
+            Heading = "Successful!";
+            Body = "Amount Withdrawed!";
+        }else if("Withdraw".equals(task) && "Failed".equals(status)){
+            Heading = "Failed!";
+            Body = "Amount not Withdrawed!";
+        }else if("Withdraw".equals(task) && "Insufficient".equals(status)){
+            Heading = "Failed!";
+            Body = "Insufficient Amount!";
+        }else if("Transfer".equals(task) && "Success".equals(status)){
+            Heading = "Successful!";
+            Body = "Amount Transfered!";
+        }else if("Transfer".equals(task) && "Failed".equals(status)){
+            Heading = "Failed!";
+            Body = "Amount not Transfered!";
+        }else if("Transfer".equals(task) && "Insufficient".equals(status)){
+            Heading = "Failed!";
+            Body = "Insufficient Amount!";
+        }else{
+            Heading = null;
+            Body = null;
+        }
+        
+        JFXDialogLayout taskdone = new JFXDialogLayout();
+        taskdone.setHeading(new Text(Heading));
+
+        taskdone.setBody(new Text(Body));
+        JFXDialog taskdonediag = new JFXDialog(stackPane, taskdone, JFXDialog.DialogTransition.CENTER);
+        JFXButton taskdonebtn = new JFXButton("Okay!");
+        taskdonebtn.setId("buttons");
+        taskdonebtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                taskdonediag.close();
+            }
+        });
+        taskdone.setActions(taskdonebtn);
+        taskdonediag.show();
+    }
 
     public void Deposit() {
         if (Daccnotype.getValue() != null) {
@@ -319,6 +395,8 @@ public class FundsPageContentController implements Initializable {
             isDamount.setText("Please enter the amount!");
         } else if (Integer.valueOf(Damount.getText()) < 0) {
             isDaccnotype.setText("Invalid Balance!");
+            PopUp("Deposit","Invalid");
+
         } else {
             isDamount.setText("");
         }
@@ -330,12 +408,16 @@ public class FundsPageContentController implements Initializable {
                 if (checkDeposit(Integer.parseInt(splited[0]), Integer.parseInt(Damount.getText()))) {
                     if (depositDone(Integer.parseInt(splited[0]), Integer.parseInt(Damount.getText()))) {
                         isDamount.setText("");
-                    } else {
-                        isDamount.setText("Insufficient amount!");
+                        PopUp("Deposit","Success");
+
+                        System.out.println("pass");
                     }
                     System.out.println("Done");
                 } else {
                     System.out.println("failed");
+                    PopUp("Deposit","Failed");
+                    isDamount.setText("Insufficient amount!");
+
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(FundsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -355,8 +437,11 @@ public class FundsPageContentController implements Initializable {
         }
         if (Wamount.getText().isEmpty()) {
             isWamount.setText("Please enter the amount!");
-        } else if (Integer.valueOf(Wamount.getText()) < 0) {
-            isWaccnotype.setText("Invalid Balance!");
+        } else if (Integer.valueOf(Wamount.getText()) < 0 || Integer.valueOf(Wamount.getText()) > getBalance(Integer.valueOf(splited[0]))) {
+            isWamount.setText("Insufficient Balance!");
+            PopUp("Withdraw","Insufficient");
+
+
         } else {
             isWamount.setText("");
         }
@@ -368,13 +453,16 @@ public class FundsPageContentController implements Initializable {
                     if (withdrawDone(Integer.parseInt(splited[0]), Integer.parseInt(Wamount.getText()))) {
 
                         isWamount.setText("");
-                    } else {
-                        isWamount.setText("Insufficient amount!");
+                        PopUp("Withdraw","Success");
+
                     }
                     System.out.println("Done");
 
                 } else {
                     System.out.println("failed");
+                    PopUp("Withdraw","Failed");
+
+                    isWamount.setText("Insufficient amount!");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(FundsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -399,8 +487,12 @@ public class FundsPageContentController implements Initializable {
         }
         if (transferAmount.getText().isEmpty()) {
             isTransferAmount.setText("Please enter the amount!");
-        } else if (Integer.valueOf(transferAmount.getText()) < 0) {
-            isTransferAmount.setText("Invalid Balance!");
+        } else if (Integer.valueOf(transferAmount.getText()) < 0 || Integer.valueOf(transferAmount.getText()) > getBalance(Integer.valueOf(splited[0]))) {
+            isTransferAmount.setText("Insufficient Balance!");
+            PopUp("Transfer","Insufficient");
+
+            isTransferAmount.setText("Insufficient amount!");
+            System.out.println("Failed");
         } else {
             isTransferAmount.setText("");
         }
@@ -413,13 +505,17 @@ public class FundsPageContentController implements Initializable {
                     if (transferDone(Integer.parseInt(splited[0]), Integer.parseInt(transferAcc.getText()), Integer.parseInt(transferAmount.getText()))) {
 
                         isTransferAmount.setText("");
-                    } else {
-                        isTransferAmount.setText("Insufficient amount!");
+                        PopUp("Transfer","Success");
+
+
                     }
-                    System.out.println("Done");
                 } else {
-                    System.out.println("failed");
+                    PopUp("Transfer","Failed");
+
+                    isTransferAmount.setText("Insufficient amount!");
+                    System.out.println("Failed");
                 }
+
             } catch (SQLException ex) {
                 Logger.getLogger(FundsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -449,6 +545,42 @@ public class FundsPageContentController implements Initializable {
                 Logger.getLogger(ActivityPageContentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    public void loadBalancetab() {
+        BalanceTable.setRoot(null);
+        data.clear();
+        data.removeAll(data);
+        JFXTreeTableColumn<Balance, String> AccNo = new JFXTreeTableColumn<>("Account Number");
+        AccNo.setPrefWidth(150);
+        AccNo.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Balance, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Balance, String> param) {
+                return param.getValue().getValue().acc_no;
+            }
+        });
+        JFXTreeTableColumn<Balance, String> AccType = new JFXTreeTableColumn<>("Account Type");
+        AccType.setPrefWidth(150);
+        AccType.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Balance, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Balance, String> param) {
+                return param.getValue().getValue().acc_type;
+            }
+        });
+        JFXTreeTableColumn<Balance, String> AccBal = new JFXTreeTableColumn<>("Account Balance");
+        AccBal.setPrefWidth(150);
+        AccBal.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Balance, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Balance, String> param) {
+                return param.getValue().getValue().acc_amount;
+            }
+        });
+        //        users.add(new User("1kj2", "1kj2", "1kjk2"));
+        getData();
+        final TreeItem<Balance> root = new RecursiveTreeItem<Balance>(data, RecursiveTreeObject::getChildren);
+        BalanceTable.getColumns().setAll(AccNo, AccType, AccBal);
+        BalanceTable.setRoot(root);
+        BalanceTable.setShowRoot(false);
     }
 
     @Override
@@ -486,43 +618,11 @@ public class FundsPageContentController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(FundsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        loadBalancetab();
         BalanceTab.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                BalanceTable.setRoot(null);
-                data.clear();
-                data.removeAll(data);
-                JFXTreeTableColumn<Balance, String> AccNo = new JFXTreeTableColumn<>("Account Number");
-                AccNo.setPrefWidth(150);
-                AccNo.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Balance, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Balance, String> param) {
-                        return param.getValue().getValue().acc_no;
-                    }
-                });
-                JFXTreeTableColumn<Balance, String> AccType = new JFXTreeTableColumn<>("Account Type");
-                AccType.setPrefWidth(150);
-                AccType.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Balance, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Balance, String> param) {
-                        return param.getValue().getValue().acc_type;
-                    }
-                });
-                JFXTreeTableColumn<Balance, String> AccBal = new JFXTreeTableColumn<>("Account Balance");
-                AccBal.setPrefWidth(150);
-                AccBal.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Balance, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Balance, String> param) {
-                        return param.getValue().getValue().acc_amount;
-                    }
-                });
-                //        users.add(new User("1kj2", "1kj2", "1kjk2"));
-                getData();
-                final TreeItem<Balance> root = new RecursiveTreeItem<Balance>(data, RecursiveTreeObject::getChildren);
-                BalanceTable.getColumns().setAll(AccNo, AccType, AccBal);
-                BalanceTable.setRoot(root);
-                BalanceTable.setShowRoot(false);
+                loadBalancetab();
             }
         });
         transferAmount.textProperty().addListener((observable, oldValue, newValue) -> {

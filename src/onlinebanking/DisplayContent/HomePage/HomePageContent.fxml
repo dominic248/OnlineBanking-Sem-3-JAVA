@@ -5,93 +5,103 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinebanking.DisplayContent.HomePage.HomePageContentController">
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinebanking.DisplayContent.HomePage.HomePageContentController">
    <children>
-      <AnchorPane fx:id="depositAnchor" layoutX="35.0" layoutY="35.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
-         <effect>
-            <DropShadow />
-         </effect>
+      <StackPane fx:id="stackPane">
          <children>
-            <Label id="headTitle" fx:id="depositTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" prefHeight="25.0" prefWidth="353.0" text="Deposit Amount" />
-            <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" prefHeight="20.0" prefWidth="353.0" text="Add an Amount of Money into Account" />
-            <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@deposit.png" />
-               </image>
-            </ImageView>
+            <AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1200.0">
+               <children>
+                  <AnchorPane fx:id="depositAnchor" layoutX="35.0" layoutY="35.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <children>
+                        <Label id="headTitle" fx:id="depositTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" prefHeight="25.0" prefWidth="353.0" text="Deposit Amount" />
+                        <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" prefHeight="20.0" prefWidth="353.0" text="Add an Amount of Money into Account" />
+                        <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@deposit.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="withdrawAnchor" layoutX="423.0" layoutY="35.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <children>
+                        <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" prefHeight="20.0" prefWidth="353.0" text="Remove an Amount of Money from Account" />
+                        <Label id="headTitle" fx:id="withdrawTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" prefHeight="25.0" prefWidth="353.0" style="-fx-text-alignment: center;" text="Withdraw Amount" />
+                        <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@withdraw.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="transferAnchor" layoutX="811.0" layoutY="35.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <children>
+                        <Label id="headTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" text="Transfer Amount" />
+                        <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" text="To transfer Amount between two Accounts" />
+                        <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@tranfer.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="balanceAnchor" layoutX="35.0" layoutY="312.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <children>
+                        <Label id="headTitle" fx:id="balanceTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" prefWidth="353.0" text="Balance" />
+                        <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" prefHeight="20.0" prefWidth="353.0" text="To check the balance Amount in your Accounts" />
+                        <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@balance.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="transactionAnchor" layoutX="423.0" layoutY="312.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <children>
+                        <Label id="headTitle" fx:id="transactionTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" prefHeight="25.0" prefWidth="353.0" text="Transactions" />
+                        <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" prefHeight="20.0" prefWidth="353.0" text="History of your Account Deposit,Withdraw and Transfer" />
+                        <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@transaction.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="activityAnchor" layoutX="811.0" layoutY="312.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <children>
+                        <Label id="headTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" prefHeight="25.0" prefWidth="353.0" text="Activity" />
+                        <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" prefHeight="25.0" prefWidth="353.0" text="To view Log-in and Log-out Activity" />
+                        <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@activity.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <Label fx:id="delUserAcc" alignment="CENTER" contentDisplay="CENTER" layoutX="541.0" layoutY="568.0" onMouseClicked="#delUserAcc" prefHeight="17.0" prefWidth="118.0" text="Delete User Account" textFill="#0018ff" />
+               </children>
+            </AnchorPane>
          </children>
-      </AnchorPane>
-      <AnchorPane fx:id="withdrawAnchor" layoutX="423.0" layoutY="35.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" prefHeight="20.0" prefWidth="353.0" text="Remove an Amount of Money from Account" />
-            <Label id="headTitle" fx:id="withdrawTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" prefHeight="25.0" prefWidth="353.0" style="-fx-text-alignment: center;" text="Withdraw Amount" />
-            <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@withdraw.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="transferAnchor" layoutX="811.0" layoutY="35.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <Label id="headTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" text="Transfer Amount" />
-            <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" text="To transfer Amount between two Accounts" />
-            <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@tranfer.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="balanceAnchor" layoutX="35.0" layoutY="312.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <Label id="headTitle" fx:id="balanceTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" prefWidth="353.0" text="Balance" />
-            <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" prefHeight="20.0" prefWidth="353.0" text="To check the balance Amount in your Accounts" />
-            <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@balance.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="transactionAnchor" layoutX="423.0" layoutY="312.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <Label id="headTitle" fx:id="transactionTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" prefHeight="25.0" prefWidth="353.0" text="Transactions" />
-            <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" prefHeight="20.0" prefWidth="353.0" text="History of your Account Deposit,Withdraw and Transfer" />
-            <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@transaction.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="activityAnchor" layoutX="811.0" layoutY="312.0" prefHeight="242.0" prefWidth="353.0" style="-fx-background-color: white; -fx-background-radius: 20;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <Label id="headTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="153.0" prefHeight="25.0" prefWidth="353.0" text="Activity" />
-            <Label id="headInfo" alignment="CENTER" contentDisplay="CENTER" layoutY="195.0" prefHeight="25.0" prefWidth="353.0" text="To view Log-in and Log-out Activity" />
-            <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="115.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@activity.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <Label fx:id="delUserAcc" alignment="CENTER" contentDisplay="CENTER" layoutX="541.0" layoutY="568.0" onMouseClicked="#delUserAcc" prefHeight="17.0" prefWidth="118.0" text="Delete User Account" textFill="#0018ff" />
+      </StackPane>
    </children>
 </AnchorPane>

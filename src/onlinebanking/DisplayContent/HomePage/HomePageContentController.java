@@ -1,5 +1,8 @@
 package onlinebanking.DisplayContent.HomePage;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -9,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +21,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import static onlinebanking.DisplayContent.AccountsPage.AccountsPageContentController.acc_id;
 import onlinebanking.LoginRegister.LoginModel;
@@ -66,6 +72,9 @@ public class HomePageContentController implements Initializable {
     private Label transactionTitle;
 
     @FXML
+    private StackPane stackPane;
+
+    @FXML
     private AnchorPane activityAnchor;
 
     public static int index = 0;
@@ -75,28 +84,69 @@ public class HomePageContentController implements Initializable {
 
     @FXML
     void delUserAcc(MouseEvent event) {
-        String query = "delete from users where uid=" + uid + ";";
-        
-        System.out.println(query);
-   
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.execute();
-            Stage stage;
-            Parent loader;
+        JFXDialogLayout taskdone = new JFXDialogLayout();
+        taskdone.setHeading(new Text("Delete Account"));
 
-            loader = FXMLLoader.load(getClass().getResource("/onlinebanking/LoginRegister/LoginRegisterPage.fxml"));
-            stage = OnlineBanking.stage;
-            stage.getScene().setRoot(loader);
-            stage.show();     
-            
-            LoginModel.uid = 0;
-            System.out.println("Deleted");
-        } catch (SQLException e) {
-            System.out.println("Failed");
-        } catch (IOException ex) {
-            Logger.getLogger(HomePageContentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        taskdone.setBody(new Text("Delete User Account Confirmation?"));
+        JFXDialog taskdonediag = new JFXDialog(stackPane, taskdone, JFXDialog.DialogTransition.CENTER);
+        JFXButton taskdonebtn = new JFXButton("Yes");
+        JFXButton taskcancelbtn = new JFXButton("Cancel");
+        taskdonebtn.setId("buttons");
+        taskcancelbtn.setId("buttons");
+        taskcancelbtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                taskdonediag.close();
+            }
+        });
+        taskdonebtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String query = "delete from users where uid=" + uid + ";";
+
+                System.out.println(query);
+
+                try {
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.execute();
+                    JFXDialogLayout taskcom = new JFXDialogLayout();
+                    taskcom.setHeading(new Text("Successful!"));
+
+                    taskcom.setBody(new Text("Account Deleted Successfully!"));
+                    JFXDialog taskcomdiag = new JFXDialog(stackPane, taskcom, JFXDialog.DialogTransition.CENTER);
+                    JFXButton taskcombtn = new JFXButton("Okay");
+                    taskcombtn.setId("buttons");
+                    taskcombtn.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            taskcomdiag.close();
+                            try {
+                                
+                                Stage stage;
+                                Parent loader;
+                                
+                                loader = FXMLLoader.load(getClass().getResource("/onlinebanking/LoginRegister/LoginRegisterPage.fxml"));
+                                stage = OnlineBanking.stage;
+                                stage.getScene().setRoot(loader);
+                                stage.show();
+                                
+                                LoginModel.uid = 0;
+                            } catch (IOException ex) {
+                                Logger.getLogger(HomePageContentController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    });
+                    taskcom.setActions(taskcombtn);
+                    taskcomdiag.show();
+                    
+                    System.out.println("Deleted");
+                } catch (SQLException e) {
+                    System.out.println("Failed");
+                } 
+            }
+        });
+        taskdone.setActions(taskdonebtn, taskcancelbtn);
+        taskdonediag.show();
     }
 
     @Override
@@ -105,6 +155,7 @@ public class HomePageContentController implements Initializable {
         depositAnchor.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent me) {
                 try {
+
                     mainAnchor.getChildren().clear();
                     index = 1;
                     mainAnchor.getChildren().add(FXMLLoader.load(getClass().getResource("/onlinebanking/DisplayContent/FundsPage/FundsPageContent.fxml")));
