@@ -187,10 +187,14 @@ public class FundsPageContentController implements Initializable {
     }
 
     public boolean transferDone(int curr_acc, int to_acc, int amount) throws SQLException {
-        String query = "INSERT INTO `transfer` (tAccno,tToAccno,tAmount,tDate) VALUES (" + curr_acc + "," + to_acc + "," + amount + ",datetime('now', 'localtime'));\n";
-        System.out.println(query);
+        String queryt = "INSERT INTO `transfer` (tAccno,tToAccno,tAmount,tDate) VALUES (" + curr_acc + "," + to_acc + "," + amount + ",datetime('now', 'localtime'));\n";
+        String queryr = "INSERT INTO `received` (rAccno,rFromAccno,rAmount,rDate) VALUES (" + to_acc + "," + curr_acc + "," + amount + ",datetime('now', 'localtime'));\n";
+        System.out.println(queryt);
+        System.out.println(queryr);
         try {
-            preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(queryt);
+            preparedStatement.execute();
+            preparedStatement = connection.prepareStatement(queryr);
             preparedStatement.execute();
             return true;
 

@@ -8,13 +8,13 @@
 
 <AnchorPane prefHeight="590.0" prefWidth="250.0" style="-fx-background-color: #b97df1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-        <ImageView fx:id="uImage" fitHeight="191.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-        <JFXButton fx:id="drawerHome" ellipsisString="" layoutY="191.0" prefHeight="55.0" prefWidth="250.0" ripplerFill="#878787" text="Home" textAlignment="CENTER" />
-        <JFXButton fx:id="drawerAccounts" layoutY="246.0" prefHeight="55.0" prefWidth="250.0" ripplerFill="#898989" text="Accounts" />
-        <JFXButton fx:id="drawerFunds" layoutY="298.0" prefHeight="55.0" prefWidth="250.0" ripplerFill="#898989" text="Funds" />
-        <JFXButton fx:id="drawerAbout" layoutY="408.0" prefHeight="49.0" prefWidth="250.0" text="About" />
-        <JFXButton fx:id="drawerActivity" layoutY="353.0" prefHeight="55.0" prefWidth="250.0" ripplerFill="#898989" text="Activity" />
-      <JFXButton fx:id="drawerLogout" layoutY="457.0" prefHeight="49.0" prefWidth="250.0" text="Logout" />
+        <ImageView fx:id="uImage" fitHeight="190.0" fitWidth="250.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true" />
+        <JFXButton fx:id="drawerHome" ellipsisString="" layoutY="190.0" prefHeight="50.0" prefWidth="250.0" ripplerFill="#878787" text="Home" textAlignment="CENTER" />
+        <JFXButton fx:id="drawerAccounts" layoutY="240.0" prefHeight="50.0" prefWidth="250.0" ripplerFill="#898989" text="Accounts" />
+        <JFXButton fx:id="drawerFunds" layoutY="290.0" prefHeight="50.0" prefWidth="250.0" ripplerFill="#898989" text="Funds" />
+        <JFXButton fx:id="drawerAbout" layoutY="390.0" prefHeight="50.0" prefWidth="250.0" text="About" />
+        <JFXButton fx:id="drawerActivity" layoutY="340.0" prefHeight="50.0" prefWidth="250.0" ripplerFill="#898989" text="Activity" />
+      <JFXButton fx:id="drawerLogout" layoutY="440.0" prefHeight="50.0" prefWidth="250.0" text="Logout" />
       <Label fx:id="Userame" layoutX="16.0" layoutY="137.0" prefHeight="29.0" prefWidth="218.0" text="Label" textFill="RED" wrapText="true">
          <font>
             <Font size="16.0" />

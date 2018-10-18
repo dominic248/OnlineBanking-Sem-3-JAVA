@@ -202,6 +202,7 @@ public class DisplayController implements Initializable {
                                     Logger.getLogger(DisplayController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                                 break;
+                            
                             case "drawerAbout":
                                 try {
                                     mainAnchorPane.getChildren().clear();

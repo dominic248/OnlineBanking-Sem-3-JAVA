@@ -83,7 +83,9 @@ public class ActivityPageContentController implements Initializable {
                 + "UNION\n"
                 + "select waid as CurrentAccount, null as ToAccount, wamount as Amount, wDate as Date, op as Op from withdraw where waid in (select acc_no from accounts where acc_id=" + acc_id + ")\n"
                 + "UNION\n"
-                + "select tAccno as CurrentAccount, tToAccno as ToAccount, tamount as Amount, tDate as Date, op as Op from transfer where tAccno in (select acc_no from accounts where acc_id=" + acc_id + ");";
+                + "select tAccno as CurrentAccount, tToAccno as ToAccount, tamount as Amount, tDate as Date, op as Op from transfer where tAccno in (select acc_no from accounts where acc_id=" + acc_id + ")\n"
+                + "UNION\n"
+                + "select rAccno as CurrentAccount, rFromAccno as ToAccount, ramount as Amount, rDate as Date, op as Op from received where rAccno in (select acc_no from accounts where acc_id=" + acc_id + ");";
         System.out.println(query);
         try {
             preparedStatement = connection.prepareStatement(query);
@@ -149,7 +151,7 @@ public class ActivityPageContentController implements Initializable {
                         return param.getValue().getValue().currAcc;
                     }
                 });
-                JFXTreeTableColumn<Transactions, String> toAccCol = new JFXTreeTableColumn<>("To Account");
+                JFXTreeTableColumn<Transactions, String> toAccCol = new JFXTreeTableColumn<>("To/From Account");
                 toAccCol.setPrefWidth(150);
                 toAccCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Transactions, String>, ObservableValue<String>>() {
                     @Override

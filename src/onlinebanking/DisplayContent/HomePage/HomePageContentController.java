@@ -3,6 +3,7 @@ package onlinebanking.DisplayContent.HomePage;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXSnackbar;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -51,7 +52,7 @@ public class HomePageContentController implements Initializable {
     private Label depositTitle;
 
     @FXML
-    private AnchorPane withdrawAnchor, mainAnchor;
+    private AnchorPane withdrawAnchor, mainAnchor,Anchor;
 
     @FXML
     private Label withdrawTitle;
@@ -76,6 +77,9 @@ public class HomePageContentController implements Initializable {
 
     @FXML
     private AnchorPane activityAnchor;
+    
+    @FXML
+    
 
     public static int index = 0;
 
@@ -148,10 +152,14 @@ public class HomePageContentController implements Initializable {
         taskdone.setActions(taskdonebtn, taskcancelbtn);
         taskdonediag.show();
     }
+    
+   
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         uid = LoginModel.uid;
+     
+        
         depositAnchor.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent me) {
                 try {
@@ -221,4 +229,6 @@ public class HomePageContentController implements Initializable {
         });
 
     }
+
+    
 }

@@ -60,3 +60,9 @@
     -fx-pref-height: 20;
     -fx-translate-x: 0;
 }
+.jfx-snackbar-content{
+    -fx-background-color: red;
+    -fx-pref-tile-height: 30;
+    -fx-pref-tile-width: 1200;
+    
+}

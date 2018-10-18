@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="OnlineBanking.jar" size="1116146" download="eager" />
+    <jar href="OnlineBanking.jar" size="1117604" download="eager" />
     <jar href="lib\jfoenix.jar" size="2631271" download="eager" />
     <jar href="lib\sqlite-jdbc.jar" size="6733696" download="eager" />
   </resources>
