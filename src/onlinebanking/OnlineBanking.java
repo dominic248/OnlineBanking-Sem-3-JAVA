@@ -5,6 +5,7 @@
  */
 package onlinebanking;
 
+import java.awt.Toolkit;
 import onlinebanking.database.SqliteConnection;
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle; //StageStyle.DECORATED
@@ -48,6 +50,9 @@ public class OnlineBanking extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setMaximized(false);
+        //stage.getIcons().add(new Image("/onlinebanking/icon.png"));
+        stage.getIcons().add(new Image(OnlineBanking.class.getResourceAsStream("/onlinebanking/icon.png")));
+        
         //stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
@@ -58,5 +63,6 @@ public class OnlineBanking extends Application {
     public static void main(String[] args) {
         //DBConnected dbConnected = new DBConnected();
         launch(args);
+        
     }
 }

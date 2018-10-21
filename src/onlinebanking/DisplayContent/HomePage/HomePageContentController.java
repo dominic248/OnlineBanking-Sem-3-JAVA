@@ -145,6 +145,7 @@ public class HomePageContentController implements Initializable {
                     
                     System.out.println("Deleted");
                 } catch (SQLException e) {
+                    e.printStackTrace();
                     System.out.println("Failed");
                 } 
             }

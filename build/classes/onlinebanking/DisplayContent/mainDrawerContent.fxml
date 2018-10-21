@@ -15,7 +15,7 @@
         <JFXButton fx:id="drawerAbout" layoutY="390.0" prefHeight="50.0" prefWidth="250.0" text="About" />
         <JFXButton fx:id="drawerActivity" layoutY="340.0" prefHeight="50.0" prefWidth="250.0" ripplerFill="#898989" text="Activity" />
       <JFXButton fx:id="drawerLogout" layoutY="440.0" prefHeight="50.0" prefWidth="250.0" text="Logout" />
-      <Label fx:id="Userame" layoutX="16.0" layoutY="137.0" prefHeight="29.0" prefWidth="218.0" text="Label" textFill="RED" wrapText="true">
+      <Label fx:id="Userame" layoutX="16.0" layoutY="137.0" prefHeight="29.0" prefWidth="218.0" style="-fx-font-weight: bold; -fx-font-family: Roboto; -fx-font-size: 18;" text="Label" textFill="RED" wrapText="true">
          <font>
             <Font size="16.0" />
          </font></Label>
