@@ -5,17 +5,10 @@
  */
 package onlinebanking.DisplayContent.AboutPage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javafx.fxml.Initializable;
-
 /**
  *
  * @author dms
  */
 public class AboutPageContentController  {
-
-   
 
 }

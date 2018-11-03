@@ -16,7 +16,6 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,21 +33,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-import onlinebanking.DisplayContent.ActivityPage.ActivityPageContentController;
-import onlinebanking.DisplayContent.HomePage.HomePageContentController;
 import onlinebanking.LoginRegister.LoginModel;
 import onlinebanking.OnlineBanking;
 import onlinebanking.database.SqliteConnection;
@@ -60,23 +53,19 @@ import onlinebanking.database.SqliteConnection;
 public class AccountsPageContentController implements Initializable {
 
     static ObservableList<AccInfo> data = FXCollections.observableArrayList();
-    Connection connection;
+    static Connection connection=OnlineBanking.connection;
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet = null;
     static ResultSet resultSet1 = null;
     public static int acc_id;
 
-    public AccountsPageContentController() {
-        connection = SqliteConnection.connector();
-        if (connection == null) {
-            System.exit(1);
-        }
-    }
-
     Random random = new Random();
     ObservableList<String> Macc_type = FXCollections.observableArrayList("Student", "Savings", "Current");
 
     public boolean accTypeExists(String acc_type) throws SQLException {
+        if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
         String query = "SELECT * FROM accounts WHERE acc_id=" + acc_id + " and acc_type='" + acc_type + "';";
         System.out.println(query);
         try {
@@ -93,10 +82,18 @@ public class AccountsPageContentController implements Initializable {
         } finally {
             preparedStatement.close();
             resultSet.close();
+            connection.close();
         }
     }
 
     public void delAccType() {
+        try {
+            if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         TreeItem<AccInfo> selectedItem = AccInfoTable.getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
             return;
@@ -112,16 +109,28 @@ public class AccountsPageContentController implements Initializable {
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.execute();
+            
             System.out.println("Deleted");
             loadAccInfo();
             PopUp("DeleteAcc", "Success");
         } catch (SQLException e) {
             System.out.println("Failed");
             PopUp("DeleteAcc", "Failed");
+        }finally{
+            try {
+                preparedStatement.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(AccountsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }
 
     public boolean isCreateAccount(int acc_no, String acc_type, String acc_details, int acc_amount) throws SQLException {
+        if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
         String query = "INSERT INTO `accounts` (acc_no,acc_id,acc_type,acc_details,acc_amount,acc_date) VALUES (" + acc_no + "," + acc_id + ",'" + acc_type + "','" + acc_details + "'," + acc_amount + ",datetime('now', 'localtime'));\n";
         System.out.println(query);
         try {
@@ -134,6 +143,7 @@ public class AccountsPageContentController implements Initializable {
             return false;
         } finally {
             preparedStatement.close();
+            connection.close();
 
         }
     }
@@ -240,6 +250,13 @@ public class AccountsPageContentController implements Initializable {
     }
 
     public void getData() {
+        try {
+            if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String query = "select * from accounts where acc_id=" + acc_id + ";\n";
         System.out.println(query);
         try {
@@ -256,13 +273,14 @@ public class AccountsPageContentController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } finally {           
             try {
                 preparedStatement.close();
                 resultSet.close();
             } catch (SQLException ex) {
-                Logger.getLogger(ActivityPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AccountsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
             }
+       
         }
     }
 
@@ -321,6 +339,8 @@ public class AccountsPageContentController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         acc_id = LoginModel.uid;
+        connection = OnlineBanking.connection;
+        
         mainAccountsTab.widthProperty().addListener((observable, oldValue, newValue) -> {
             mainAccountsTab.setTabMinWidth((mainAccountsTab.getWidth() - 10) / 2);
             mainAccountsTab.setTabMaxWidth((mainAccountsTab.getWidth() - 10) / 2);
@@ -362,5 +382,4 @@ public class AccountsPageContentController implements Initializable {
             return acc_no;
         }
     }
-
 }

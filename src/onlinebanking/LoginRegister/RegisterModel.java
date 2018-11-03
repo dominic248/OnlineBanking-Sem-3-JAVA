@@ -8,13 +8,11 @@ package onlinebanking.LoginRegister;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import onlinebanking.OnlineBanking;
 import onlinebanking.database.SqliteConnection;
 
 /**
@@ -23,15 +21,14 @@ import onlinebanking.database.SqliteConnection;
  */
 public class RegisterModel {
 
-    Connection connection;
+    static Connection connection=OnlineBanking.connection;
 
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet = null;
 
     public RegisterModel() {
-        connection = SqliteConnection.connector();
         if (connection == null) {
-            System.exit(1);
+            connection = SqliteConnection.connector();
         }
     }
     private FileInputStream imagefis;
@@ -55,7 +52,6 @@ public class RegisterModel {
             preparedStatement.close();
             resultSet.close();
         }
-
     }
 
     public boolean isRegister(String name, String username, String password, String address, String email, String mobile) throws SQLException, FileNotFoundException {
@@ -72,15 +68,11 @@ public class RegisterModel {
                 else 
                     preparedStatement.setBinaryStream(1, (InputStream) imagefis, (int) LoginRegisterController.file.length());
                 System.out.println(query);
-                preparedStatement.execute();
-                
+                preparedStatement.execute();          
                 return true;
-
             } catch (SQLException e) {
                 System.out.println("Error!");
                 return false;
-            }
-        
+            }       
     }
-
 }

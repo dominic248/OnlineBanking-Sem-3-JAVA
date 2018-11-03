@@ -5,7 +5,6 @@
  */
 package onlinebanking;
 
-import java.awt.Toolkit;
 import onlinebanking.database.SqliteConnection;
 import java.io.IOException;
 import java.sql.Connection;
@@ -18,15 +17,17 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle; //StageStyle.DECORATED
 import onlinebanking.LoginRegister.LoginModel;
+import static onlinebanking.database.SqliteConnection.createdb;
 
 public class OnlineBanking extends Application {
 
     public static Stage stage;
-    Connection connection;
+    public static Connection connection = SqliteConnection.connector();
     LoginModel l = new LoginModel();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        createdb();
         this.stage = primaryStage;
         mainWindow();
     }
@@ -40,7 +41,7 @@ public class OnlineBanking extends Application {
     }
 
     public void mainWindow() throws IOException {
-        connection = SqliteConnection.createdb();
+        connection = SqliteConnection.connector();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/onlinebanking/LoginRegister/LoginRegisterPage.fxml"));
         StackPane pane = loader.load();
         Scene scene = new Scene(pane);
@@ -61,8 +62,6 @@ public class OnlineBanking extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //DBConnected dbConnected = new DBConnected();
-        launch(args);
-        
+        launch(args);   
     }
 }

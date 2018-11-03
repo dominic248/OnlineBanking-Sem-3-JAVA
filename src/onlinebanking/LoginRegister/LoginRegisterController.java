@@ -5,7 +5,6 @@
  */
 package onlinebanking.LoginRegister;
 
-import javafx.scene.layout.Pane;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTabPane;
@@ -15,9 +14,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
@@ -32,11 +31,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-
 import onlinebanking.database.DBConnected;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import onlinebanking.OnlineBanking;
+import onlinebanking.database.SqliteConnection;
 
 /**
  *
@@ -50,6 +50,7 @@ public class LoginRegisterController implements Initializable {
     LoginModel loginModel = new LoginModel();
     DBConnected dbConnected = new DBConnected();
     RegisterModel registerModel = new RegisterModel();
+    static Connection connection=OnlineBanking.connection;
 
    
 
@@ -257,6 +258,10 @@ public class LoginRegisterController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        connection = OnlineBanking.connection;
+        if (connection == null) {
+            connection = SqliteConnection.connector();
+        }
         LoginRegisterTab.widthProperty().addListener((observable, oldValue, newValue)
                 -> {
             LoginRegisterTab.setTabMinWidth(((LoginRegisterTab.getWidth()) / 2)-5);

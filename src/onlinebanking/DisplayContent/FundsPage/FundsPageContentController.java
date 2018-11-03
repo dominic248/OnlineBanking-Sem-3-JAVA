@@ -16,7 +16,6 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,11 +34,8 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
-
 import javafx.scene.control.Label;
-
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
@@ -47,10 +43,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import onlinebanking.DisplayContent.ActivityPage.ActivityPageContentController;
-import onlinebanking.DisplayContent.DisplayController;
 import onlinebanking.DisplayContent.HomePage.HomePageContentController;
-
 import onlinebanking.LoginRegister.LoginModel;
+import onlinebanking.OnlineBanking;
 import onlinebanking.database.SqliteConnection;
 
 /**
@@ -61,20 +56,18 @@ public class FundsPageContentController implements Initializable {
 
     public static String[] splited = new String[4];
 
-    Connection connection;
+    static Connection connection=OnlineBanking.connection;
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet = null;
     static ResultSet resultSet1 = null;
     public static int acc_id;
 
-    public FundsPageContentController() {
-        connection = SqliteConnection.connector();
-        if (connection == null) {
-            System.exit(1);
-        }
-    }
+
 
     public ArrayList<String> getAccounts() throws SQLException {
+        if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
         ArrayList<String> acc_no = new ArrayList<String>();
         String query = "select * from accounts where acc_id=" + acc_id + ";";
         System.out.println(query);
@@ -95,15 +88,20 @@ public class FundsPageContentController implements Initializable {
         } finally {
             preparedStatement.close();
             resultSet.close();
+            connection.close();
         }
     }
 
     public boolean withdrawDone(int acc_no, int amount) throws SQLException {
+        if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
         String query = "INSERT INTO `withdraw` (waid,wAmount,wDate) VALUES (" + acc_no + "," + amount + ",datetime('now', 'localtime'));\n";
         System.out.println(query);
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.execute();
+            
             return true;
 
         } catch (SQLException e) {
@@ -111,11 +109,15 @@ public class FundsPageContentController implements Initializable {
             return false;
         } finally {
             preparedStatement.close();
+            connection.close();
 
         }
     }
 
     public boolean checkWithdraw(int acc_no, int amount) throws SQLException {
+        if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
         String query = "select * from accounts where acc_no=" + acc_no + ";\n";
         System.out.println(query);
         try {
@@ -138,16 +140,20 @@ public class FundsPageContentController implements Initializable {
             return false;
         } finally {
             preparedStatement.close();
-
+            connection.close();
         }
     }
 
     public boolean depositDone(int acc_no, int amount) throws SQLException {
+        if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
         String query = "INSERT INTO `deposit` (daid,dAmount,dDate) VALUES (" + acc_no + "," + amount + ",datetime('now', 'localtime'));\n";
         System.out.println(query);
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.execute();
+            
             return true;
 
         } catch (SQLException e) {
@@ -155,11 +161,15 @@ public class FundsPageContentController implements Initializable {
             return false;
         } finally {
             preparedStatement.close();
+            connection.close();
 
         }
     }
 
     public boolean checkDeposit(int acc_no, int amount) throws SQLException {
+        if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
         String query = "select * from accounts where acc_no=" + acc_no + ";\n";
         System.out.println(query);
         try {
@@ -174,6 +184,7 @@ public class FundsPageContentController implements Initializable {
                 System.out.println(query2);
                 preparedStatement = connection.prepareStatement(query2);
                 preparedStatement.execute();
+                
                 return true;
             }
 
@@ -182,11 +193,15 @@ public class FundsPageContentController implements Initializable {
             return false;
         } finally {
             preparedStatement.close();
+            connection.close();
 
         }
     }
 
     public boolean transferDone(int curr_acc, int to_acc, int amount) throws SQLException {
+        if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
         String queryt = "INSERT INTO `transfer` (tAccno,tToAccno,tAmount,tDate) VALUES (" + curr_acc + "," + to_acc + "," + amount + ",datetime('now', 'localtime'));\n";
         String queryr = "INSERT INTO `received` (rAccno,rFromAccno,rAmount,rDate) VALUES (" + to_acc + "," + curr_acc + "," + amount + ",datetime('now', 'localtime'));\n";
         System.out.println(queryt);
@@ -194,8 +209,10 @@ public class FundsPageContentController implements Initializable {
         try {
             preparedStatement = connection.prepareStatement(queryt);
             preparedStatement.execute();
+            
             preparedStatement = connection.prepareStatement(queryr);
             preparedStatement.execute();
+            
             return true;
 
         } catch (SQLException e) {
@@ -203,11 +220,15 @@ public class FundsPageContentController implements Initializable {
             return false;
         } finally {
             preparedStatement.close();
+            connection.close();
 
         }
     }
 
     public boolean checkTransfer(int curr_acc, int to_acc, int amount) throws SQLException {
+        if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
         String query_curr = "select * from accounts where acc_no=" + curr_acc + ";\n";
         String query_to = "select * from accounts where acc_no=" + to_acc + ";\n";
         System.out.println(query_curr);
@@ -232,6 +253,7 @@ public class FundsPageContentController implements Initializable {
                 System.out.println(query_to2);
                 preparedStatement = connection.prepareStatement(query_to2);
                 preparedStatement.execute();
+                
                 return true;
             }
 
@@ -240,6 +262,7 @@ public class FundsPageContentController implements Initializable {
             return false;
         } finally {
             preparedStatement.close();
+            connection.close();
 
         }
     }
@@ -317,6 +340,13 @@ public class FundsPageContentController implements Initializable {
     static ObservableList<Balance> data = FXCollections.observableArrayList();
 
     public int getBalance(int acc_no) {
+        try {
+            if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FundsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String query = "select * from accounts where acc_no=" + acc_no + ";\n";
         System.out.println(query);
         try {
@@ -330,6 +360,15 @@ public class FundsPageContentController implements Initializable {
         } catch (SQLException e) {
             return 0;
 
+        }finally{
+            try {
+                preparedStatement.close();
+                resultSet.close();
+            connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(FundsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }
 
@@ -527,7 +566,14 @@ public class FundsPageContentController implements Initializable {
     }
 
     public void getData() {
-        String toAcc;
+        try {
+            if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FundsPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         String query = "select acc_no,acc_type,acc_amount from accounts where acc_id=" + acc_id + ";\n";
         System.out.println(query);
         try {
@@ -545,6 +591,7 @@ public class FundsPageContentController implements Initializable {
             try {
                 preparedStatement.close();
                 resultSet.close();
+                connection.close();
             } catch (SQLException ex) {
                 Logger.getLogger(ActivityPageContentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -590,6 +637,8 @@ public class FundsPageContentController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         index = HomePageContentController.index;
+        connection = OnlineBanking.connection;
+        
         if (index == 1) {
             mainFundsTab.getSelectionModel().select(0);
         } else if (index == 2) {

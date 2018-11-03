@@ -34,6 +34,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.util.Callback;
 import onlinebanking.DisplayContent.HomePage.HomePageContentController;
 import onlinebanking.LoginRegister.LoginModel;
+import onlinebanking.OnlineBanking;
 import onlinebanking.database.SqliteConnection;
 
 /**
@@ -45,18 +46,13 @@ public class ActivityPageContentController implements Initializable {
     LoginModel l = new LoginModel();
     static ObservableList<Transactions> data = FXCollections.observableArrayList();
     static ObservableList<Activity> adata= FXCollections.observableArrayList();
-    Connection connection;
+    static Connection connection=OnlineBanking.connection;
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet = null;
     static ResultSet resultSet1 = null;
     public static int acc_id;
 
-    public ActivityPageContentController() {
-        connection = SqliteConnection.connector();
-        if (connection == null) {
-            System.exit(1);
-        }
-    }
+
 
     int index;
     @FXML
@@ -78,6 +74,13 @@ public class ActivityPageContentController implements Initializable {
     private JFXTreeTableView<Activity> ActivityTable;
 
     public void getData() {
+        try {
+            if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ActivityPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String toAcc;
         String query = "select daid as CurrentAccount, null as ToAccount, damount as Amount, dDate as Date, op as Op from deposit where daid in (select acc_no from accounts where acc_id=" + acc_id + ")\n"
                 + "UNION\n"
@@ -110,6 +113,7 @@ public class ActivityPageContentController implements Initializable {
             try {
                 preparedStatement.close();
                 resultSet.close();
+                connection.close();
             } catch (SQLException ex) {
                 Logger.getLogger(ActivityPageContentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -117,6 +121,13 @@ public class ActivityPageContentController implements Initializable {
     }
     
     public void getActivityData() {
+        try {
+            if (connection.isClosed()) {
+                connection = SqliteConnection.connector();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ActivityPageContentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String query = "select aType,aDate from activity where aid="+acc_id+";";
         System.out.println(query);
         try {
@@ -133,6 +144,8 @@ public class ActivityPageContentController implements Initializable {
             try {
                 preparedStatement.close();
                 resultSet.close();
+                connection.close();
+                
             } catch (SQLException ex) {
                 Logger.getLogger(ActivityPageContentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -195,7 +208,9 @@ public class ActivityPageContentController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         index=HomePageContentController.index;
-        if(index==5 ){
+        connection = OnlineBanking.connection;
+        
+        if(index==5){
             mainActivityTab.getSelectionModel().select(0);
         }else if(index==6){
             mainActivityTab.getSelectionModel().select(1);

@@ -3,7 +3,6 @@ package onlinebanking.DisplayContent.HomePage;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.JFXSnackbar;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -25,24 +24,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import static onlinebanking.DisplayContent.AccountsPage.AccountsPageContentController.acc_id;
 import onlinebanking.LoginRegister.LoginModel;
 import onlinebanking.OnlineBanking;
 import onlinebanking.database.SqliteConnection;
 
 public class HomePageContentController implements Initializable {
 
-    Connection connection;
+    static Connection connection=OnlineBanking.connection;
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet = null;
     static ResultSet resultSet1 = null;
 
-    public HomePageContentController() {
-        connection = SqliteConnection.connector();
-        if (connection == null) {
-            System.exit(1);
-        }
-    }
+    
 
     int uid;
     @FXML
@@ -106,60 +99,70 @@ public class HomePageContentController implements Initializable {
         taskdonebtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String query = "delete from users where uid=" + uid + ";";
-
-                System.out.println(query);
-
                 try {
-                    preparedStatement = connection.prepareStatement(query);
-                    preparedStatement.execute();
-                    JFXDialogLayout taskcom = new JFXDialogLayout();
-                    taskcom.setHeading(new Text("Successful!"));
-
-                    taskcom.setBody(new Text("Account Deleted Successfully!"));
-                    JFXDialog taskcomdiag = new JFXDialog(stackPane, taskcom, JFXDialog.DialogTransition.CENTER);
-                    JFXButton taskcombtn = new JFXButton("Okay");
-                    taskcombtn.setId("buttons");
-                    taskcombtn.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            taskcomdiag.close();
-                            try {
-                                
-                                Stage stage;
-                                Parent loader;
-                                
-                                loader = FXMLLoader.load(getClass().getResource("/onlinebanking/LoginRegister/LoginRegisterPage.fxml"));
-                                stage = OnlineBanking.stage;
-                                stage.getScene().setRoot(loader);
-                                stage.show();
-                                
-                                LoginModel.uid = 0;
-                            } catch (IOException ex) {
-                                Logger.getLogger(HomePageContentController.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    });
-                    taskcom.setActions(taskcombtn);
-                    taskcomdiag.show();
+                    if (connection.isClosed()) {
+                        connection = SqliteConnection.connector();
+                    }
+                    String query = "delete from users where uid=" + uid + ";";
                     
-                    System.out.println("Deleted");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    System.out.println("Failed");
+                    System.out.println(query);
+                    
+                    try {
+                        preparedStatement = connection.prepareStatement(query);
+                        preparedStatement.execute();
+                        
+                        JFXDialogLayout taskcom = new JFXDialogLayout();
+                        taskcom.setHeading(new Text("Successful!"));
+                        
+                        taskcom.setBody(new Text("Account Deleted Successfully!"));
+                        JFXDialog taskcomdiag = new JFXDialog(stackPane, taskcom, JFXDialog.DialogTransition.CENTER);
+                        JFXButton taskcombtn = new JFXButton("Okay");
+                        taskcombtn.setId("buttons");
+                        taskcombtn.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                taskcomdiag.close();
+                                try {
+                                    
+                                    Stage stage;
+                                    Parent loader;
+                                    
+                                    loader = FXMLLoader.load(getClass().getResource("/onlinebanking/LoginRegister/LoginRegisterPage.fxml"));
+                                    stage = OnlineBanking.stage;
+                                    stage.getScene().setRoot(loader);
+                                    stage.show();
+                                    
+                                    LoginModel.uid = 0;
+                                } catch (IOException ex) {
+                                    Logger.getLogger(HomePageContentController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        });
+                        taskcom.setActions(taskcombtn);
+                        taskcomdiag.show();
+                        
+                        System.out.println("Deleted");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        System.out.println("Failed");
+                    }finally{
+                        preparedStatement.close();
+                        connection.close();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(HomePageContentController.class.getName()).log(Level.SEVERE, null, ex);
                 } 
             }
         });
         taskdone.setActions(taskdonebtn, taskcancelbtn);
         taskdonediag.show();
     }
-    
-   
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         uid = LoginModel.uid;
      
+        connection = OnlineBanking.connection;
         
         depositAnchor.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent me) {
@@ -228,8 +231,5 @@ public class HomePageContentController implements Initializable {
                 }
             }
         });
-
-    }
-
-    
+    }   
 }

@@ -7,9 +7,7 @@ package onlinebanking.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import onlinebanking.OnlineBanking;
 
 /**
  *
@@ -17,14 +15,12 @@ import java.util.logging.Logger;
  */
 public class DBConnected {
 
-    Connection connection;
+    static Connection connection=OnlineBanking.connection;
 
     public DBConnected() {
-        connection = SqliteConnection.connector();
         if (connection == null) {
-            System.exit(1);
+            connection = SqliteConnection.connector();
         }
-
     }
 
     public boolean isDbConnected() {
@@ -34,7 +30,5 @@ public class DBConnected {
             e.printStackTrace();
             return false;
         }
-
     }
-
 }
